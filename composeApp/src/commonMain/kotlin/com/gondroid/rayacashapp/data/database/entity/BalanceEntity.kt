@@ -8,11 +8,14 @@ import com.gondroid.rayacashapp.domain.model.Currency
 @Entity(tableName = "balances")
 data class BalanceEntity(
     @PrimaryKey val currency: String,
-    val amount: Double, val updatedAt: String
+    val amount: String,
+    val updatedAt: String
 ) {
     fun toDomain(): Balance {
         return Balance(
-            currency = getCurrency(currency), amount = amount, updatedAt = updatedAt
+            currency = getCurrency(currency),
+            amount = amount,
+            updatedAt = updatedAt
         )
     }
 

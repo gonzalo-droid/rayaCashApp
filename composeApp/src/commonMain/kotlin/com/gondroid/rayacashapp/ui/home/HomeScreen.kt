@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -33,6 +34,7 @@ import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
+import com.gondroid.rayacashapp.ui.core.RayaColor
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -64,7 +66,6 @@ fun HomeScreen(state: HomeState) {
                     .padding(paddingValues)
                     .padding(vertical = 16.dp),
         ) {
-
             item {
                 TotalBalance(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
@@ -72,15 +73,28 @@ fun HomeScreen(state: HomeState) {
                 )
                 Divider(modifier = Modifier.fillMaxWidth())
             }
-            items(
-                items = state.balances,
-                key = { balance -> balance.currency }
-            ) { balance ->
-                CardItem(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-                    item = balance
-                )
+            if (state.isLoading) {
+                item {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                            color = RayaColor
+                        )
+                    }
+                }
+            } else {
+                items(
+                    items = state.balances,
+                    key = { balance -> balance.currency }
+                ) { balance ->
+                    CardItem(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        item = balance
+                    )
+                }
             }
+
         }
     }
 }
@@ -170,7 +184,7 @@ fun CardItem(modifier: Modifier, item: Balance) {
             )
             Text(
                 modifier = Modifier.align(Alignment.End),
-                text = "ARS 123123.23",
+                text = item.amountToARS,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp
             )

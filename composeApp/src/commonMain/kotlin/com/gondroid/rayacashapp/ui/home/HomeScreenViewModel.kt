@@ -23,34 +23,34 @@ class HomeScreenViewModel(
     init {
         viewModelScope.launch {
             initializeData()
-
-            getBalances()
         }
     }
 
     private suspend fun initializeData() = withContext(Dispatchers.IO) {
         try {
+            _state.update {
+                it.copy(
+                    isLoading = true
+                )
+            }
             repository.insertInitialBalances()
 
             val result = getTotalBalance()
             withContext(Dispatchers.Main) {
-                result.onSuccess { total ->
-                    _state.update { it.copy(totalBalance = total) }
+                result.onSuccess { data ->
+                    _state.update {
+                        it.copy(
+                            totalBalance = data.totalBalance,
+                            balances = data.balances,
+                            isLoading = false
+                        )
+                    }
                 }.onFailure { error ->
                     // Log.e("HomeViewModel", "Failed to get total balance", error)
                 }
             }
         } catch (e: Exception) {
-            // Log.e("HomeViewModel", "Initialization failed", e)
-        }
-    }
-
-    private fun getBalances() {
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                repository.getBalances()
-            }
-            _state.update { it.copy(balances = result) }
+            println("Excepción durante la conversión: ${e.message}")
         }
     }
 }

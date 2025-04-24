@@ -10,11 +10,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Balance(
     val currency: Currency,
-    val amount: Double,
-    val updatedAt: String = getCurrentDayOfTheYear()
+    val amount: String,
+    var amountToARS: String = "",
+    val updatedAt: String = getCurrentLocalTime()
 )
 
-private fun getCurrentDayOfTheYear(): String {
+private fun getCurrentLocalTime(): String {
     val instant: Instant = Clock.System.now()
     val localTime: LocalDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
     return localTime.toString()

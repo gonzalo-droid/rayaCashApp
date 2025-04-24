@@ -9,10 +9,9 @@ import com.gondroid.rayacashapp.domain.model.Currency.ARS
 import com.gondroid.rayacashapp.domain.model.Currency.BTC
 import com.gondroid.rayacashapp.domain.model.Currency.ETH
 import com.gondroid.rayacashapp.domain.model.Currency.USD
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.longOrNull
 
 class RepositoryImpl(
     private val apiService: ApiService,
@@ -26,25 +25,25 @@ class RepositoryImpl(
         val existing = database.getBalanceDao().getAllBalances()
         if (existing.isEmpty()) {
             val initialBalances = listOf(
-                BalanceEntity(currency = ARS.toString(), amount = 123.0, updatedAt = ""),
-                BalanceEntity(currency = USD.toString(), amount = 500.0, updatedAt = ""),
-                BalanceEntity(currency = BTC.toString(), amount = 0.0123321, updatedAt = ""),
-                BalanceEntity(currency = ETH.toString(), amount = 0.2043115, updatedAt = "")
+                BalanceEntity(currency = ARS.toString(), amount = "800.0", updatedAt = ""),
+                BalanceEntity(currency = USD.toString(), amount = "500.0", updatedAt = ""),
+                BalanceEntity(currency = BTC.toString(), amount = "0.00000899", updatedAt = ""),
+                BalanceEntity(currency = ETH.toString(), amount = "0.00000123", updatedAt = "")
             )
             database.getBalanceDao().insertBalances(initialBalances)
         }
     }
 
-    override suspend fun getConversionRatesToARS(ids: List<String>): Result<Map<String, Double>>  {
+    override suspend fun getConversionRatesToARS(ids: List<String>): Result<Map<String, Long>> {
         return try {
             val idsCoin = ids.joinToString(",")
             val response = apiService.getCoinPrice(coin = idsCoin, vsCurrency = "ars")
 
             val jsonObject = response.jsonObject
-            val resultMap = mutableMapOf<String, Double>()
+            val resultMap = mutableMapOf<String, Long>()
 
             for ((coin, coinData) in jsonObject) {
-                val price = coinData.jsonObject["ars"]?.jsonPrimitive?.doubleOrNull
+                val price = coinData.jsonObject["ars"]?.jsonPrimitive?.longOrNull
                 if (price != null) {
                     resultMap[coin] = price
                 }
