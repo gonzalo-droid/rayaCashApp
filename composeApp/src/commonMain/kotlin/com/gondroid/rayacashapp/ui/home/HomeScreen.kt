@@ -1,6 +1,7 @@
 package com.gondroid.rayacashapp.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,7 +18,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -32,9 +32,12 @@ import androidx.compose.ui.unit.sp
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
+import com.gondroid.rayacashapp.ui.core.RayaColor
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import rayacashapp.composeapp.generated.resources.Res
+import rayacashapp.composeapp.generated.resources.ic_rayacash_logo
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -54,10 +57,11 @@ fun HomeScreen(state: HomeState) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
+            TopBar()
+            /*TopAppBar(
                 title = {
                     Box(
-                        modifier = Modifier.padding(8.dp).fillMaxWidth(),
+                        modifier = Modifier.padding(20.dp).fillMaxWidth(),
                         contentAlignment = Alignment.Center
 
                     ) {
@@ -69,9 +73,6 @@ fun HomeScreen(state: HomeState) {
                             textAlign = TextAlign.Center
                         )
                     }
-                },
-                navigationIcon = {
-                    Spacer(modifier = Modifier.width(24.dp))
                 },
                 actions = {
                     Box(
@@ -90,7 +91,7 @@ fun HomeScreen(state: HomeState) {
 
                     }
                 },
-            )
+            )*/
         },
     ) { paddingValues ->
         LazyColumn(
@@ -121,6 +122,47 @@ fun HomeScreen(state: HomeState) {
 }
 
 @Composable
+fun TopBar() {
+    Box(
+        modifier = Modifier.fillMaxWidth().background(RayaColor).padding(top = 32.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(Res.drawable.ic_rayacash_logo),
+            "",
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+                .align(Alignment.TopStart)
+        )
+
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = "Portafolio",
+            color = BackgroundPrimaryColor,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center
+        )
+
+        Box(
+            modifier =
+                Modifier
+                    .padding(8.dp)
+                    .clickable {
+
+                    }
+                    .align(Alignment.CenterEnd),
+        ) {
+            Icon(
+                imageVector = Icons.Default.Menu,
+                contentDescription = "Add Task",
+                tint = BackgroundPrimaryColor,
+            )
+
+        }
+    }
+}
+
+@Composable
 fun TotalBalance(modifier: Modifier, totalBalance: String) {
     Column(modifier = modifier) {
         Text(text = "Total Balance", modifier = Modifier.fillMaxWidth(), fontSize = 14.sp)
@@ -141,7 +183,7 @@ fun CardItem(modifier: Modifier, item: Balance) {
         horizontalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = Modifier.width(25.dp).padding(end = 8.dp),
+            modifier = Modifier.width(27.dp).padding(end = 8.dp),
             contentDescription = item.currency.name,
             painter = painterResource(Coin.getCoinImage(item.currency)),
             alignment = Alignment.Center
