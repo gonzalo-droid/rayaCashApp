@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import kotlinx.serialization.json.JsonElement
 
 class ApiService(private val client: HttpClient) {
 
@@ -14,10 +15,10 @@ class ApiService(private val client: HttpClient) {
         }.body()
     }
 
-    suspend fun getCoinPrice(coin: String, vsCurrency: String) {
+    suspend fun getCoinPrice(coin: String, vsCurrency: String): JsonElement {
         return client.get("api/v3/simple/price") {
             parameter("ids", coin)
-            parameter("vsCurrency", vsCurrency)
+            parameter("vs_currencies", vsCurrency)
         }.body()
     }
 }
