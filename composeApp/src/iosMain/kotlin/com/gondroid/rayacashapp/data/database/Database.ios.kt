@@ -1,7 +1,6 @@
 package com.gondroid.rayacashapp.data.database
 
 import androidx.room.Room
-import androidx.sqlite.driver.NativeSQLiteDriver
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers

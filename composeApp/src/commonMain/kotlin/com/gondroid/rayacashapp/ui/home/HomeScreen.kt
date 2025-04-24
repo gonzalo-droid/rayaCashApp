@@ -32,12 +32,10 @@ import androidx.compose.ui.unit.sp
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
-import com.gondroid.rayacashapp.ui.core.RayaColor
+import com.gondroid.rayacashapp.ui.core.DefaultTextColor
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import rayacashapp.composeapp.generated.resources.Res
-import rayacashapp.composeapp.generated.resources.ic_rayacash_logo
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -58,40 +56,6 @@ fun HomeScreen(state: HomeState) {
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopBar()
-            /*TopAppBar(
-                title = {
-                    Box(
-                        modifier = Modifier.padding(20.dp).fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-
-                    ) {
-                        Text(
-                            text = "Portafolio",
-                            color = BackgroundPrimaryColor,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                },
-                actions = {
-                    Box(
-                        modifier =
-                            Modifier
-                                .padding(8.dp)
-                                .clickable {
-
-                                },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Add Task",
-                            tint = BackgroundPrimaryColor,
-                        )
-
-                    }
-                },
-            )*/
         },
     ) { paddingValues ->
         LazyColumn(
@@ -124,20 +88,13 @@ fun HomeScreen(state: HomeState) {
 @Composable
 fun TopBar() {
     Box(
-        modifier = Modifier.fillMaxWidth().background(RayaColor).padding(top = 32.dp),
+        modifier = Modifier.fillMaxWidth().background(BackgroundPrimaryColor).padding(top = 30.dp),
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(Res.drawable.ic_rayacash_logo),
-            "",
-            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
-                .align(Alignment.TopStart)
-        )
-
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = "Portafolio",
-            color = BackgroundPrimaryColor,
+            color = DefaultTextColor,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             textAlign = TextAlign.Center
@@ -155,7 +112,7 @@ fun TopBar() {
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Add Task",
-                tint = BackgroundPrimaryColor,
+                tint = DefaultTextColor,
             )
 
         }

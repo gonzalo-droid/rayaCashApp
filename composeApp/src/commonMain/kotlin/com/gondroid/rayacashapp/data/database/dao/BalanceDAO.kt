@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.gondroid.rayacashapp.data.database.entity.BalanceEntity
 
-
 @Dao
 interface BalanceDAO {
 
