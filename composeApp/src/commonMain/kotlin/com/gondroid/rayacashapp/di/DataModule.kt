@@ -1,5 +1,8 @@
 package com.gondroid.rayacashapp.di
 
+import com.gondroid.rayacashapp.data.RepositoryImpl
+import com.gondroid.rayacashapp.data.remote.ApiService
+import com.gondroid.rayacashapp.domain.Repository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -17,13 +20,16 @@ val dataModule = module {
                 json(json = Json { ignoreUnknownKeys = true }, contentType = ContentType.Any)
             }
             install(DefaultRequest) {
-                url{
+                url {
                     protocol = URLProtocol.HTTPS
                     host = "api.coingecko.com"
-                   parameters.append("x-cg-demo-api-key", "CG-YbdkbHQkbaTUrxLufExLC5f3")
+                    parameters.append("x-cg-demo-api-key", "CG-YbdkbHQkbaTUrxLufExLC5f3")
                 }
             }
         }
     }
+
+    factoryOf(::ApiService)
+    factory<Repository> { RepositoryImpl(get(), get()) }
 
 }
