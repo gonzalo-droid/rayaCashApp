@@ -23,6 +23,7 @@ class HomeScreenViewModel(
     init {
         viewModelScope.launch {
             initializeData()
+
             getBalances()
         }
     }

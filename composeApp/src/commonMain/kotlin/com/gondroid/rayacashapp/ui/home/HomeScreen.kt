@@ -68,7 +68,7 @@ fun HomeScreen(state: HomeState) {
             item {
                 TotalBalance(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    totalBalance = state.totalBalance
+                    state = state
                 )
                 Divider(modifier = Modifier.fillMaxWidth())
             }
@@ -120,11 +120,11 @@ fun TopBar() {
 }
 
 @Composable
-fun TotalBalance(modifier: Modifier, totalBalance: String) {
+fun TotalBalance(modifier: Modifier, state: HomeState) {
     Column(modifier = modifier) {
         Text(text = "Total Balance", modifier = Modifier.fillMaxWidth(), fontSize = 14.sp)
         Text(
-            text = "ARS 123123.23",
+            text = state.totalBalance,
             modifier = Modifier.fillMaxWidth(),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
