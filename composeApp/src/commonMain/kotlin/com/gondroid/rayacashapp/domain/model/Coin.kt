@@ -46,13 +46,13 @@ val coins = listOf(
     Coin(
         id = "ars",
         currency = Currency.ARS.name,
-        name = "Peso Argentino",
+        name = "Argentine Peso",
         image = "coin_ars.png"
     ),
     Coin(
         id = "usd",
         currency = Currency.USD.name,
-        name = "Dólar Estadounidense",
+        name = "US Dollar",
         image = "coin_usd.png"
     ),
     Coin(
@@ -69,3 +69,14 @@ val coins = listOf(
     )
 )
 
+fun getCurrency(currency: String): Currency {
+    return when (currency) {
+        Currency.ARS.name -> Currency.ARS
+        Currency.USD.name -> Currency.USD
+        Currency.BTC.name -> Currency.BTC
+        Currency.ETH.name -> Currency.ETH
+        else -> {
+            Currency.UNKNOWN
+        }
+    }
+}

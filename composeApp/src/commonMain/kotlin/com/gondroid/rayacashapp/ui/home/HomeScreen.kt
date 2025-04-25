@@ -48,16 +48,17 @@ fun HomeScreenRoot(
     val viewModel = koinViewModel<HomeScreenViewModel>()
     val state by viewModel.state.collectAsState()
     HomeScreen(
-        state = state
+        state = state,
+        navigateToTransactions = navigateToTransactions
     )
 }
 
 @Composable
-fun HomeScreen(state: HomeState) {
+fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBar()
+            TopBar(navigateToTransactions = navigateToTransactions)
         },
     ) { paddingValues ->
         LazyColumn(
@@ -100,14 +101,14 @@ fun HomeScreen(state: HomeState) {
 }
 
 @Composable
-fun TopBar() {
+fun TopBar(navigateToTransactions: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth().background(BackgroundPrimaryColor).padding(top = 30.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = "Portafolio",
+            text = "Portfolio",
             color = DefaultTextColor,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
@@ -118,10 +119,10 @@ fun TopBar() {
             modifier =
                 Modifier
                     .padding(8.dp)
+                    .align(Alignment.CenterEnd)
                     .clickable {
-
-                    }
-                    .align(Alignment.CenterEnd),
+                        navigateToTransactions()
+                    },
         ) {
             Icon(
                 imageVector = Icons.Default.Menu,

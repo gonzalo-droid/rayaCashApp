@@ -1,14 +1,14 @@
-package com.gondroid.rayacashapp.domain
+package com.gondroid.rayacashapp.domain.useCases
 
 import com.gondroid.rayacashapp.KMMDecimal
 import com.gondroid.rayacashapp.createDecimal
+import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.BalanceAmountToARS
 import com.gondroid.rayacashapp.domain.model.Currency
 import com.gondroid.rayacashapp.plus
 import com.gondroid.rayacashapp.times
 import com.gondroid.rayacashapp.toPlainString
-
 
 class GetTotalBalance(private val repository: Repository) {
 

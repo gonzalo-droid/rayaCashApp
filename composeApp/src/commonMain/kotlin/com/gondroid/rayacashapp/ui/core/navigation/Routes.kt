@@ -7,3 +7,6 @@ object HomeScreenRoute
 
 @Serializable
 object TransactionsScreenRoute
+
+@Serializable
+object ConvertScreenRoute

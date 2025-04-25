@@ -2,7 +2,7 @@ package com.gondroid.rayacashapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gondroid.rayacashapp.domain.GetTotalBalance
+import com.gondroid.rayacashapp.domain.useCases.GetTotalBalance
 import com.gondroid.rayacashapp.domain.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

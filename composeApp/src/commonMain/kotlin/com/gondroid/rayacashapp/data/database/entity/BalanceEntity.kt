@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Currency
+import com.gondroid.rayacashapp.domain.model.getCurrency
 
 @Entity(tableName = "balances")
 data class BalanceEntity(
@@ -17,17 +18,5 @@ data class BalanceEntity(
             amount = amount,
             updatedAt = updatedAt
         )
-    }
-
-    fun getCurrency(currency: String): Currency {
-        return when (currency) {
-            Currency.ARS.name -> Currency.ARS
-            Currency.USD.name -> Currency.USD
-            Currency.BTC.name -> Currency.BTC
-            Currency.ETH.name -> Currency.ETH
-            else -> {
-                Currency.UNKNOWN
-            }
-        }
     }
 }
