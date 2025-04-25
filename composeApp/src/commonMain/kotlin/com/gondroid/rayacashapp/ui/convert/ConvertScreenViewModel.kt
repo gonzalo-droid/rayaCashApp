@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.domain.model.coinsList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ConvertScreenViewModel(
     private val repository: Repository
@@ -21,14 +24,12 @@ class ConvertScreenViewModel(
             fromCoinSelected = coinsList[0],
             toCoinSelected = coinsList[1],
         )
-
-        viewModelScope.launch {
-
-        }
+        getBalanceByCurrency()
     }
 
     fun saveCoinFrom(coin: Coin) {
         _state.value = _state.value.copy(fromCoinSelected = coin)
+        getBalanceByCurrency()
     }
 
     fun saveCoinTo(coin: Coin) {
@@ -47,4 +48,12 @@ class ConvertScreenViewModel(
         )
     }
 
+    fun getBalanceByCurrency() {
+        viewModelScope.launch {
+            val balance = withContext(Dispatchers.IO) {
+                repository.getBalanceByCurrency(state.value.fromCoinSelected.currency.name)
+            }
+            _state.value = _state.value.copy(balance = balance)
+        }
+    }
 }

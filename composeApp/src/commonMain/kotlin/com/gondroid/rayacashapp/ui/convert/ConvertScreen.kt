@@ -99,9 +99,12 @@ fun ConvertScreen(
         containerColor = BackgroundPrimaryColor,
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CustomTopBar(modifier = Modifier, title = "Convert", navigateStart = {
-                onAction(ConvertScreenAction.Back)
-            })
+            CustomTopBar(
+                modifier = Modifier,
+                title = "Convert",
+                navigateStart = {
+                    onAction(ConvertScreenAction.Back)
+                })
         },
     ) { paddingValues ->
         Column(
@@ -253,7 +256,7 @@ fun CardConvertFrom(
 
         Column {
             Text(
-                text = "Available 0.334 DOGE",
+                text = "Available ${state.balance.amount} ${state.balance.currency.name}",
                 fontWeight = FontWeight.Normal,
                 fontSize = 10.sp,
                 modifier = Modifier.align(Alignment.End),

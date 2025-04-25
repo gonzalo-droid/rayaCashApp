@@ -14,7 +14,6 @@ import com.gondroid.rayacashapp.domain.model.Currency.USD
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.longOrNull
 
 class RepositoryImpl(
     private val apiService: ApiService,
@@ -59,5 +58,13 @@ class RepositoryImpl(
             Result.failure(e)
         }
 
+    }
+
+    override suspend fun updateBalance(balance: Balance) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getBalanceByCurrency(currency: String): Balance {
+        return database.getBalanceDao().getBalanceForCurrency(currency).toDomain()
     }
 }

@@ -9,8 +9,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Balance(
-    val currency: Currency,
-    val amount: String,
+    val currency: Currency = Currency.ARS,
+    val amount: String = "0.0",
     var amountToARS: String = "",
     val updatedAt: String = getCurrentLocalTime()
 )

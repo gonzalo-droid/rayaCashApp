@@ -22,5 +22,5 @@ interface BalanceDAO {
     suspend fun updateBalance(currency: String, amount: Double)
 
     @Query("SELECT * FROM balances WHERE currency = :currency LIMIT 1")
-    suspend fun getBalanceForCurrency(currency: String): BalanceEntity?
+    suspend fun getBalanceForCurrency(currency: String): BalanceEntity
 }
