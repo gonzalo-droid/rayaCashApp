@@ -31,6 +31,8 @@ import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import rayacashapp.composeapp.generated.resources.Res
+import rayacashapp.composeapp.generated.resources.ic_convert
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -62,7 +64,8 @@ fun TransactionScreen(
                 modifier = Modifier,
                 navigateEnd = navigateToConvert,
                 navigateStart = navigateBack,
-                title = "Transaction History"
+                title = "Transaction History",
+                iconNavigateEnd = painterResource(Res.drawable.ic_convert)
             )
         },
     ) { paddingValues ->

@@ -1,6 +1,8 @@
 package com.gondroid.rayacashapp
 
 import platform.Foundation.NSDecimalNumber
+import platform.Foundation.NSDecimalNumberHandler
+import platform.Foundation.NSRoundingMode
 
 class IOSDecimal(override val value: String) : KMMDecimal {
     val decimal = NSDecimalNumber(value)
@@ -24,6 +26,17 @@ actual fun KMMDecimal.times(other: KMMDecimal): KMMDecimal {
     return IOSDecimal(thisDecimal.decimalNumberByMultiplyingBy(otherDecimal).stringValue)
 }
 
-actual fun Long.toKMMDecimal(): KMMDecimal {
-    return createDecimal(this.toString())
+actual fun KMMDecimal.roundToDecimal(decimal: Int): KMMDecimal {
+    val decimalNumber = (this as IOSDecimal).decimal
+    val handler = NSDecimalNumberHandler(
+        roundingMode = NSRoundingMode.NSRoundPlain,
+        scale = decimal.toShort(),
+        raiseOnExactness = false,
+        raiseOnOverflow = false,
+        raiseOnUnderflow = false,
+        raiseOnDivideByZero = false
+    )
+
+    val rounded = decimalNumber.decimalNumberByRoundingAccordingToBehavior(handler)
+    return IOSDecimal(rounded.stringValue)
 }

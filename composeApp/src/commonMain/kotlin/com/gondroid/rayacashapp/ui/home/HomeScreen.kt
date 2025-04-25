@@ -32,6 +32,8 @@ import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import rayacashapp.composeapp.generated.resources.Res
+import rayacashapp.composeapp.generated.resources.ic_transactions
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -56,7 +58,8 @@ fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
             CustomTopBar(
                 modifier = Modifier,
                 title = "Portfolio",
-                navigateEnd = navigateToTransactions
+                navigateEnd = navigateToTransactions,
+                iconNavigateEnd = painterResource(Res.drawable.ic_transactions)
             )
         },
     ) { paddingValues ->

@@ -1,4 +1,3 @@
-
 package com.gondroid.rayacashapp
 
 interface KMMDecimal {
@@ -13,4 +12,4 @@ expect fun createDecimal(value: String): KMMDecimal
 
 expect fun KMMDecimal.times(other: KMMDecimal): KMMDecimal
 
-expect fun Long.toKMMDecimal(): KMMDecimal
+expect fun KMMDecimal.roundToDecimal(decimal: Int = 2): KMMDecimal

@@ -7,6 +7,7 @@ import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.BalanceAmountToARS
 import com.gondroid.rayacashapp.domain.model.Currency
 import com.gondroid.rayacashapp.plus
+import com.gondroid.rayacashapp.roundToDecimal
 import com.gondroid.rayacashapp.times
 import com.gondroid.rayacashapp.toPlainString
 
@@ -27,13 +28,13 @@ class GetTotalBalance(private val repository: Repository) {
                 }
 
                 val balanceAmountToARS = BalanceAmountToARS(
-                    totalBalance = "ARS ${totalInARS.toPlainString()}",
+                    totalBalance = "ARS ${totalInARS.roundToDecimal().toPlainString()}",
                     balances = balances.map { balance ->
                         balance.amountToARS =
                             "ARS " + getConversionRates(
                                 balance,
                                 conversionRates
-                            ).toPlainString()
+                            ).roundToDecimal().toPlainString()
                         balance
                     }
                 )

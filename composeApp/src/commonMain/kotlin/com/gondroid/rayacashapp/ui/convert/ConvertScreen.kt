@@ -51,6 +51,7 @@ import com.gondroid.rayacashapp.ui.core.tertiaryBlack
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import rayacashapp.composeapp.generated.resources.Res
 
 
 @OptIn(KoinExperimentalAPI::class)
@@ -103,7 +104,8 @@ fun ConvertScreen(
                 title = "Convert",
                 navigateStart = {
                     onAction(ConvertScreenAction.Back)
-                })
+                },
+            )
         },
     ) { paddingValues ->
         Column(
