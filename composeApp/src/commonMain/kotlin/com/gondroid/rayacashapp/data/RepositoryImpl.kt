@@ -1,5 +1,7 @@
 package com.gondroid.rayacashapp.data
 
+import com.gondroid.rayacashapp.KMMDecimal
+import com.gondroid.rayacashapp.createDecimal
 import com.gondroid.rayacashapp.data.database.RayaCashDatabase
 import com.gondroid.rayacashapp.data.database.entity.BalanceEntity
 import com.gondroid.rayacashapp.data.remote.ApiService
@@ -9,6 +11,7 @@ import com.gondroid.rayacashapp.domain.model.Currency.ARS
 import com.gondroid.rayacashapp.domain.model.Currency.BTC
 import com.gondroid.rayacashapp.domain.model.Currency.ETH
 import com.gondroid.rayacashapp.domain.model.Currency.USD
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.longOrNull
@@ -34,16 +37,18 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getConversionRatesToARS(ids: List<String>): Result<Map<String, Long>> {
+    override suspend fun getConversionRatesToARS(ids: List<String>): Result<Map<String, KMMDecimal>> {
         return try {
             val idsCoin = ids.joinToString(",")
             val response = apiService.getCoinPrice(coin = idsCoin, vsCurrency = "ars")
 
             val jsonObject = response.jsonObject
-            val resultMap = mutableMapOf<String, Long>()
+            val resultMap = mutableMapOf<String, KMMDecimal>()
 
             for ((coin, coinData) in jsonObject) {
-                val price = coinData.jsonObject["ars"]?.jsonPrimitive?.longOrNull
+                val price = coinData.jsonObject["ars"]?.jsonPrimitive?.contentOrNull?.let {
+                    createDecimal(it.toString())
+                }
                 if (price != null) {
                     resultMap[coin] = price
                 }

@@ -7,7 +7,6 @@ import com.gondroid.rayacashapp.domain.model.BalanceAmountToARS
 import com.gondroid.rayacashapp.domain.model.Currency
 import com.gondroid.rayacashapp.plus
 import com.gondroid.rayacashapp.times
-import com.gondroid.rayacashapp.toKMMDecimal
 import com.gondroid.rayacashapp.toPlainString
 
 
@@ -21,13 +20,10 @@ class GetTotalBalance(private val repository: Repository) {
             if (result.isSuccess) {
                 val conversionRates = result.getOrNull().orEmpty()
 
-                val conversionRatesToKKMDecimal =
-                    conversionRates.mapValues { (_, value) -> value.toKMMDecimal() }
-
                 var totalInARS: KMMDecimal = createDecimal("0")
                 balances.forEach { balance ->
                     totalInARS =
-                        totalInARS.plus(getConversionRates(balance, conversionRatesToKKMDecimal))
+                        totalInARS.plus(getConversionRates(balance, conversionRates))
                 }
 
                 val balanceAmountToARS = BalanceAmountToARS(
@@ -36,7 +32,7 @@ class GetTotalBalance(private val repository: Repository) {
                         balance.amountToARS =
                             "ARS " + getConversionRates(
                                 balance,
-                                conversionRatesToKKMDecimal
+                                conversionRates
                             ).toPlainString()
                         balance
                     }
