@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.gondroid.rayacashapp.ui.convert.ConvertScreenRoot
 import com.gondroid.rayacashapp.ui.home.HomeScreenRoot
 import com.gondroid.rayacashapp.ui.transaction.TransactionScreenRoot
 
@@ -35,6 +36,14 @@ fun NavigationRoot() {
                     navigateToConvert = {
                         mainNavController.navigate(ConvertScreenRoute)
                     },
+                    navigateBack = {
+                        mainNavController.popBackStack()
+                    }
+                )
+            }
+
+            composable<ConvertScreenRoute> {
+                ConvertScreenRoot(
                     navigateBack = {
                         mainNavController.popBackStack()
                     }

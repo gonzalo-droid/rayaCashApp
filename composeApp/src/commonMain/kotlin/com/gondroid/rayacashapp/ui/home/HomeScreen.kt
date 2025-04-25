@@ -1,8 +1,6 @@
 package com.gondroid.rayacashapp.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,27 +12,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
-import com.gondroid.rayacashapp.ui.core.DefaultTextColor
 import com.gondroid.rayacashapp.ui.core.RayaColor
+import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -56,23 +50,28 @@ fun HomeScreenRoot(
 @Composable
 fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
     Scaffold(
+        containerColor = BackgroundPrimaryColor,
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBar(navigateToTransactions = navigateToTransactions)
+            CustomTopBar(
+                modifier = Modifier,
+                title = "Portfolio",
+                navigateEnd = navigateToTransactions
+            )
         },
     ) { paddingValues ->
         LazyColumn(
             modifier =
                 Modifier
                     .padding(paddingValues)
-                    .padding(vertical = 16.dp),
+                    .padding(16.dp),
         ) {
             item {
                 TotalBalance(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     state = state
                 )
-                Divider(modifier = Modifier.fillMaxWidth())
+                HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp))
             }
             if (state.isLoading) {
                 item {
@@ -90,45 +89,11 @@ fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
                 ) { balance ->
                     CardItem(
                         modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                            .padding(vertical = 8.dp),
                         item = balance
                     )
                 }
             }
-
-        }
-    }
-}
-
-@Composable
-fun TopBar(navigateToTransactions: () -> Unit) {
-    Box(
-        modifier = Modifier.fillMaxWidth().background(BackgroundPrimaryColor).padding(top = 30.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            modifier = Modifier.align(Alignment.Center),
-            text = "Portfolio",
-            color = DefaultTextColor,
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            textAlign = TextAlign.Center
-        )
-
-        Box(
-            modifier =
-                Modifier
-                    .padding(8.dp)
-                    .align(Alignment.CenterEnd)
-                    .clickable {
-                        navigateToTransactions()
-                    },
-        ) {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Add Task",
-                tint = DefaultTextColor,
-            )
 
         }
     }
