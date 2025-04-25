@@ -20,7 +20,7 @@ fun NavigationRoot() {
     ) {
         NavHost(
             navController = mainNavController,
-            startDestination = ConvertScreenRoute
+            startDestination = HomeScreenRoute
         ) {
 
             composable<HomeScreenRoute> {

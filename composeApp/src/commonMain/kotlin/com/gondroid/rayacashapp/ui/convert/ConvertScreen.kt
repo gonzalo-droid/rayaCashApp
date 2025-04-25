@@ -35,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -174,7 +173,7 @@ fun CoinBottomSheet(
 ) {
     ModalBottomSheet(
         modifier = Modifier.fillMaxSize(),
-        containerColor = Color.White,
+        containerColor = BackgroundPrimaryColor,
         sheetState = sheetState,
         onDismissRequest = { onDismiss() }) {
         Column(
@@ -254,7 +253,9 @@ fun CardConvertFrom(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Column {
+        Column(
+            modifier = Modifier.align(Alignment.Bottom)
+        ) {
             Text(
                 text = "Available ${state.balance.amount} ${state.balance.currency.name}",
                 fontWeight = FontWeight.Normal,
@@ -280,7 +281,10 @@ fun CardConvertTo(
     ) {
         Column {
             Text(
-                text = "To", fontWeight = FontWeight.Normal, fontSize = 10.sp, modifier = Modifier
+                text = "To",
+                fontWeight = FontWeight.Normal,
+                fontSize = 10.sp,
+                modifier = Modifier
             )
 
             CoinSelect(
@@ -292,8 +296,15 @@ fun CardConvertTo(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Column {
-            FieldCoinFrom(state = state, modifier = Modifier)
+        Column(
+            modifier = Modifier.align(Alignment.Bottom)
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "0.0",
+                textAlign = TextAlign.End,
+                fontWeight = FontWeight.Normal,
+            )
         }
     }
 }

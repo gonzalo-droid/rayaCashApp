@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gondroid.rayacashapp.domain.model.Coin
-import com.gondroid.rayacashapp.domain.model.Currency
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.RayaColor
@@ -108,11 +107,13 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
         horizontalArrangement = Arrangement.Center
     ) {
 
-
         Column {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
                 Text(
-                    text = "from",
+                    text = "From",
                     fontWeight = FontWeight.Normal,
                     fontSize = 10.sp,
                     modifier = Modifier.padding(end = 8.dp)
@@ -120,17 +121,17 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
                 Image(
                     modifier = Modifier.width(15.dp),
                     contentDescription = "",
-                    painter = painterResource(Coin.getCoinImage(currency = Currency.USD)),
+                    painter = painterResource(Coin.getCoinImage(currency = item.fromCurrency)),
                     alignment = Alignment.Center
                 )
             }
             Text(
-                text = "0.607 DOGE",
+                text = "${item.fromAmount} ${item.fromCurrency}",
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
             Text(
-                text = "02/12/2025 11:12:13",
+                text = item.date,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp
             )
@@ -145,7 +146,7 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = "to",
+                    text = "To",
                     fontWeight = FontWeight.Normal,
                     fontSize = 10.sp,
                     modifier = Modifier.padding(end = 8.dp),
@@ -153,21 +154,21 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
                 Image(
                     modifier = Modifier.width(15.dp),
                     contentDescription = "",
-                    painter = painterResource(Coin.getCoinImage(currency = Currency.USD)),
+                    painter = painterResource(Coin.getCoinImage(currency = item.toCurrency)),
                     alignment = Alignment.CenterEnd
                 )
             }
             Text(
                 modifier = Modifier.align(Alignment.End),
-                text = "0.00000116 BTC",
+                text = "${item.toAmount} ${item.toCurrency}",
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
             Text(
                 modifier = Modifier.align(Alignment.End),
-                text = "Completed",
+                text = item.status.name,
                 fontWeight = FontWeight.Normal,
-                fontSize = 12.sp
+                fontSize = 10.sp
             )
         }
     }

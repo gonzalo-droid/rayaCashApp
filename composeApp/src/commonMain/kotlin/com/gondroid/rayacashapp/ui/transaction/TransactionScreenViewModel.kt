@@ -21,11 +21,10 @@ class TransactionScreenViewModel(
 
     init {
         viewModelScope.launch {
-            getAllTransactions()
+            val transactions = withContext(Dispatchers.IO) {
+                repository.getAllTransactions()
+            }
+            _state.value = _state.value.copy(transactions = transactions)
         }
-    }
-
-    private suspend fun getAllTransactions() = withContext(Dispatchers.IO) {
-
     }
 }

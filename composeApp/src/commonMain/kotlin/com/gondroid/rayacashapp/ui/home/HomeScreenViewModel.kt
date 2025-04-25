@@ -33,7 +33,7 @@ class HomeScreenViewModel(
                     isLoading = true
                 )
             }
-            repository.insertInitialBalances()
+            repository.insertInitialData()
 
             val result = getTotalBalance()
             withContext(Dispatchers.Main) {

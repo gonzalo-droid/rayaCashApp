@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import com.gondroid.rayacashapp.data.database.dao.BalanceDAO
+import com.gondroid.rayacashapp.data.database.dao.TransactionDAO
 import com.gondroid.rayacashapp.data.database.entity.BalanceEntity
 import com.gondroid.rayacashapp.data.database.entity.TransactionEntity
 
@@ -19,4 +20,5 @@ expect fun generateUUID(): String
 @ConstructedBy(RayaCashCTor::class)
 abstract class RayaCashDatabase : RoomDatabase() {
     abstract fun getBalanceDao(): BalanceDAO
+    abstract fun getTransactionDao(): TransactionDAO
 }
