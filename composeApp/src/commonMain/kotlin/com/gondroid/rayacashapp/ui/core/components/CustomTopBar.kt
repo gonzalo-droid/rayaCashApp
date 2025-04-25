@@ -3,8 +3,11 @@ package com.gondroid.rayacashapp.ui.core.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -29,7 +32,10 @@ fun CustomTopBar(
     navigateEnd: (() -> Unit)? = null
 ) {
     Box(
-        modifier = modifier.fillMaxWidth().background(BackgroundPrimaryColor).padding(top = 30.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(WindowInsets.statusBars.asPaddingValues())
+            .background(BackgroundPrimaryColor),
         contentAlignment = Alignment.Center
     ) {
         if (navigateStart != null) {

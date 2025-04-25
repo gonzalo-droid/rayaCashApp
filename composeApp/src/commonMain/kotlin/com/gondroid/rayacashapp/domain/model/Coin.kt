@@ -10,10 +10,8 @@ import rayacashapp.composeapp.generated.resources.coin_usd
 
 @Serializable
 data class Coin(
-    val id: String,
-    val currency: String, // "ARS", "USD", "BTC", "ETH"
-    val name: String,
-    val image: String
+    val id: String, val currency: Currency, // "ARS", "USD", "BTC", "ETH"
+    val name: String, val image: String
 ) {
     companion object {
         fun getCoinImage(currency: Currency): DrawableResource {
@@ -29,43 +27,24 @@ data class Coin(
         }
 
         fun getCoin(currency: Currency): Coin {
-            return coins.find { it.currency == currency.name }!!
+            return coinsList.find { it.currency == currency }!!
         }
     }
 }
 
 enum class Currency {
-    ARS,
-    USD,
-    BTC,
-    ETH,
-    UNKNOWN
+    ARS, USD, BTC, ETH, UNKNOWN
 }
 
-val coins = listOf(
+val coinsList = listOf(
     Coin(
-        id = "ars",
-        currency = Currency.ARS.name,
-        name = "Argentine Peso",
-        image = "coin_ars.png"
-    ),
-    Coin(
-        id = "usd",
-        currency = Currency.USD.name,
-        name = "US Dollar",
-        image = "coin_usd.png"
-    ),
-    Coin(
-        id = "bitcoin",
-        currency = Currency.BTC.name,
-        name = "Bitcoin",
-        image = "coin_bitcoin.png"
-    ),
-    Coin(
-        id = "ethereum",
-        currency = Currency.ETH.name,
-        name = "Ethereum",
-        image = "coin_ethereum.png"
+        id = "ars", currency = Currency.ARS, name = "Argentine Peso", image = "coin_ars.png"
+    ), Coin(
+        id = "usd", currency = Currency.USD, name = "US Dollar", image = "coin_usd.png"
+    ), Coin(
+        id = "bitcoin", currency = Currency.BTC, name = "Bitcoin", image = "coin_bitcoin.png"
+    ), Coin(
+        id = "ethereum", currency = Currency.ETH, name = "Ethereum", image = "coin_ethereum.png"
     )
 )
 

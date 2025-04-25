@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -64,8 +63,7 @@ fun ConvertScreenRoot(
     val viewModel = koinViewModel<ConvertScreenViewModel>()
     val state by viewModel.state.collectAsState()
     ConvertScreen(
-        state = state,
-        navigateBack = navigateBack
+        state = state, navigateBack = navigateBack
     )
 }
 
@@ -73,10 +71,9 @@ fun ConvertScreenRoot(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConvertScreen(
-    state: ConvertState,
-    navigateBack: () -> Unit
+    state: ConvertState, navigateBack: () -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -87,33 +84,29 @@ fun ConvertScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier =
-                Modifier
-                    .padding(paddingValues)
-                    .padding(16.dp),
+            modifier = Modifier.padding(paddingValues).padding(16.dp),
         ) {
 
             CardConvertFrom(
                 modifier = Modifier.fillMaxWidth()
                     .background(color = BackgroundTertiaryColor, shape = RoundedCornerShape(8.dp))
-                    .height(100.dp)
-                    .padding(vertical = 20.dp, horizontal = 10.dp),
-                state = state
-            ) {
-                showBottomSheet = true
-            }
+                    .height(100.dp).padding(vertical = 20.dp, horizontal = 10.dp),
+                state = state,
+                onCoinSheet = {
+                    showBottomSheet = true
+                }
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             CardConvertTo(
                 modifier = Modifier.fillMaxWidth()
                     .background(color = BackgroundTertiaryColor, shape = RoundedCornerShape(8.dp))
-                    .height(100.dp)
-                    .padding(vertical = 20.dp, horizontal = 10.dp),
-                state = state
-            ) {
-
-            }
+                    .height(100.dp).padding(vertical = 20.dp, horizontal = 10.dp),
+                state = state,
+                onCoinSheet = {
+                    showBottomSheet = true
+                })
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -122,7 +115,8 @@ fun ConvertScreen(
         }
 
         if (showBottomSheet) {
-            CoinBottomSheet(state = state, sheetState = sheetState, onDismiss = {})
+            CoinBottomSheet(
+                state = state, sheetState = sheetState, onDismiss = { showBottomSheet = false })
         }
 
     }
@@ -132,19 +126,53 @@ fun ConvertScreen(
 @Composable
 fun CoinBottomSheet(state: ConvertState, sheetState: SheetState, onDismiss: () -> Unit) {
     ModalBottomSheet(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         containerColor = Color.White,
         sheetState = sheetState,
-        onDismissRequest = { onDismiss() }
-    ) {
-        LazyColumn {
-            item {
-                Text(text = "Item")
-                Text(text = "Item")
-                Text(text = "Item")
+        onDismissRequest = { onDismiss() }) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp)
+        ) {
+            Text(
+                text = "Selecciona una moneda", modifier = Modifier.padding(bottom = 12.dp)
+            )
+
+            state.coins.forEach { coin ->
+                CoinItem(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp), item = coin
+                ) { coin ->
+                    onDismiss()
+                }
             }
         }
+    }
+}
+
+@Composable
+fun CoinItem(modifier: Modifier, item: Coin, onCoinSelect: (Coin) -> Unit) {
+    Row(
+        modifier = modifier.clickable {
+            onCoinSelect(item)
+        }, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start
+    ) {
+        Image(
+            modifier = Modifier.width(27.dp).padding(end = 8.dp),
+            contentDescription = item.name,
+            painter = painterResource(Coin.getCoinImage(item.currency)),
+            alignment = Alignment.Center
+        )
+
+        Column {
+            Text(
+                text = Coin.getCoin(item.currency).name,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp
+            )
+            Text(
+                text = item.currency.name, fontWeight = FontWeight.Normal, fontSize = 12.sp
+            )
+        }
+
     }
 }
 
@@ -157,10 +185,7 @@ fun CardConvertFrom(modifier: Modifier, state: ConvertState, onCoinSheet: () -> 
     ) {
         Column {
             Text(
-                text = "From",
-                fontWeight = FontWeight.Normal,
-                fontSize = 10.sp,
-                modifier = Modifier
+                text = "From", fontWeight = FontWeight.Normal, fontSize = 10.sp, modifier = Modifier
             )
 
             CoinSelect(modifier = Modifier, state = state, onCoinSheet = onCoinSheet)
@@ -189,10 +214,7 @@ fun CardConvertTo(modifier: Modifier, state: ConvertState, onCoinSheet: () -> Un
     ) {
         Column {
             Text(
-                text = "To",
-                fontWeight = FontWeight.Normal,
-                fontSize = 10.sp,
-                modifier = Modifier
+                text = "To", fontWeight = FontWeight.Normal, fontSize = 10.sp, modifier = Modifier
             )
 
             CoinSelect(modifier = Modifier, state = state, onCoinSheet = onCoinSheet)
@@ -209,9 +231,7 @@ fun CardConvertTo(modifier: Modifier, state: ConvertState, onCoinSheet: () -> Un
 @Composable
 fun CoinSelect(modifier: Modifier, state: ConvertState, onCoinSheet: () -> Unit) {
     Row(
-        modifier = modifier.clickable {
-            onCoinSheet
-        },
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
@@ -224,16 +244,12 @@ fun CoinSelect(modifier: Modifier, state: ConvertState, onCoinSheet: () -> Unit)
         Spacer(modifier = Modifier.width(4.dp))
 
         Text(
-            text = "DOGE",
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp
+            text = "DOGE", fontWeight = FontWeight.Bold, fontSize = 14.sp
         )
         Box(
-            modifier =
-                Modifier
-                    .padding(4.dp)
-                    .clickable {
-                    },
+            modifier = Modifier.padding(4.dp).clickable {
+                onCoinSheet()
+            },
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
@@ -259,18 +275,12 @@ fun FieldCoinFrom(
         state = state.fromCoin,
         cursorBrush = SolidColor(BackgroundSecondaryColor),
         lineLimits = TextFieldLineLimits.SingleLine,
-        modifier =
-            modifier
-                .onFocusChanged {
-                    isCoinFrom = it.isFocused
-                },
+        modifier = modifier.onFocusChanged {
+            isCoinFrom = it.isFocused
+        },
         decorator = { innerTextField ->
             Column {
-                if (state.fromCoin.text
-                        .toString()
-                        .isEmpty() &&
-                    !isCoinFrom
-                ) {
+                if (state.fromCoin.text.toString().isEmpty() && !isCoinFrom) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "0.0",
@@ -290,27 +300,20 @@ fun ButtonSection(
     state: ConvertState,
     onPreview: () -> Unit,
 ) {
-    Box(
-        modifier =
-            modifier
-                .padding(top = 8.dp),
+    Button(
+        enabled = state.canConvert,
+        onClick = {
+            onPreview()
+        },
+        modifier = modifier,
     ) {
-        Button(
-            enabled = state.canConvert,
-            onClick = {
-                onPreview()
+        Text(
+            text = "Preview",
+            color = if (state.canConvert) {
+                RayaColor
+            } else {
+                tertiaryBlack
             },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(
-                text = "Preview",
-                color =
-                    if (state.canConvert) {
-                        RayaColor
-                    } else {
-                        tertiaryBlack
-                    },
-            )
-        }
+        )
     }
 }
