@@ -21,7 +21,7 @@ RayaCash es una aplicación de conversión de criptomonedas y divisas. Desarroll
 
 ## Features
 - Consulta de tasas de cambio actualizadas (USD, BTC, ETH, ARS).
-- Conversión de montos entre monedas (AR, USD, BTC, ETH)
+- Conversión de montos entre monedas
 - Soporte multiplataforma (Android e iOS).
 - Visualización de transacciones de converción recientes
 - Cálculo del balance total en ARS
@@ -101,11 +101,11 @@ RayaCash/
 ```bash
 git clone https://github.com/gonzalo-droid/rayaCashApp
 ```
-##### 2️⃣ Generar tu Clave de API KEY en Coingecko
+##### 2️⃣ Generar tu Clave de API_KEYen Coingecko
 - Visita https://docs.coingecko.com/v3.0.1/reference/introduction
 - Regístrate o inicia sesión.
 - Dirígete a la sección API de tu cuenta y genera una nueva clave de API
-##### 3️⃣ Agregar la Clave de API en /commonMain/di/DataModule.kt
+##### 3️⃣ API_KEY en /commonMain/di/DataModule.kt
 ```bash
 const val COIN_GECKO_API_KEY = "TU_API_KEY"
 const val API_HOST = "api.coingecko.com"
@@ -118,7 +118,7 @@ const val API_KEY = "x-cg-demo-api-key"
 ```
 Para Android, abre el proyecto en Android Studio y ejecuta la aplicación desde allí. 
 
-** Recuerda que para iOS necesitar una mac y así emular en un iphone
+** Recuerda que para iOS necesitas una mac y así emular en un iphone
 
 
 ## 🚀 ¡Contribuciones bienvenidas!  
@@ -157,9 +157,9 @@ Aún estoy definiendo el formato 🫠, pero lo importante es empezar.
 ## 🚧 Próximas mejoras
 
 - [ ] Soporte para autenticación, Google Auth
+- [ ] Listar todas la monedas disponibles
 - [ ] Filtros en las transacciones
 - [ ] Gráficas Traker
 
-## License 
-
+## License
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
