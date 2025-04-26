@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -43,7 +44,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.gondroid.rayacashapp.domain.model.Coin
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.BackgroundTertiaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
@@ -56,6 +57,7 @@ import com.gondroid.rayacashapp.ui.core.components.TextSmall
 import com.gondroid.rayacashapp.ui.core.primaryBlack
 import com.gondroid.rayacashapp.ui.core.primaryWhite
 import com.gondroid.rayacashapp.ui.core.secondaryBlack
+import com.gondroid.rayacashapp.ui.core.tertiaryWhite
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -85,17 +87,20 @@ fun ConvertScreenRoot(
         onAction = { action ->
             when (action) {
                 is ConvertScreenAction.Back -> navigateBack()
-                is ConvertScreenAction.GoToPreview -> {}
-                is ConvertScreenAction.CoinFrom -> {
-                    viewModel.saveCoinFrom(action.coin)
+                is ConvertScreenAction.CurrencyFrom -> {
+                    viewModel.saveCurrencyFrom(action.currency)
                 }
 
-                is ConvertScreenAction.CoinTo -> {
-                    viewModel.saveCoinTo(action.coin)
+                is ConvertScreenAction.CurrencyTo -> {
+                    viewModel.saveCurrencyTo(action.currency)
                 }
 
-                is ConvertScreenAction.FilterCoin -> {
-                    viewModel.filterCoins(action.isCoinFrom)
+                is ConvertScreenAction.FilterCurrency -> {
+                    viewModel.filterCurrencies(action.isCoinFrom)
+                }
+
+                is ConvertScreenAction.SaveTransaction -> {
+                    viewModel.saveTransaction()
                 }
             }
         }
@@ -128,51 +133,75 @@ fun ConvertScreen(
             )
         },
     ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues).padding(16.dp),
+        Box(
+            modifier = Modifier.padding(paddingValues)
         ) {
+            Column(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+            ) {
 
-            CardConvertFrom(
-                modifier = Modifier.fillMaxWidth()
-                    .background(color = BackgroundTertiaryColor, shape = RoundedCornerShape(8.dp))
-                    .height(120.dp).padding(vertical = 30.dp, horizontal = 10.dp),
-                state = state,
-                onCoinSheet = {
-                    isCoinFrom = true
-                    showBottomSheet = true
-                    onAction(ConvertScreenAction.FilterCoin(isCoinFrom = isCoinFrom))
+                CardConvertFrom(
+                    modifier = Modifier.fillMaxWidth()
+                        .background(
+                            color = BackgroundTertiaryColor,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .height(120.dp).padding(vertical = 30.dp, horizontal = 10.dp),
+                    state = state,
+                    onCoinSheet = {
+                        isCoinFrom = true
+                        showBottomSheet = true
+                        onAction(ConvertScreenAction.FilterCurrency(isCoinFrom = isCoinFrom))
 
-                },
-                onAction = onAction
-            )
+                    },
+                    onAction = onAction
+                )
 
-            Spacer(modifier = Modifier.height(4.dp))
-            Icon(
-                modifier = Modifier.width(25.dp).height(25.dp).align(Alignment.CenterHorizontally),
-                contentDescription = "",
-                painter = painterResource(Res.drawable.ic_convert),
-                tint = DefaultTextColor,
-            )
-            Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(4.dp))
+                Icon(
+                    modifier = Modifier.width(25.dp).height(25.dp)
+                        .align(Alignment.CenterHorizontally),
+                    contentDescription = "",
+                    painter = painterResource(Res.drawable.ic_convert),
+                    tint = DefaultTextColor,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
 
-            CardConvertTo(
-                modifier = Modifier.fillMaxWidth()
-                    .background(color = BackgroundTertiaryColor, shape = RoundedCornerShape(8.dp))
-                    .height(120.dp).padding(vertical = 20.dp, horizontal = 10.dp),
-                state = state,
-                onCoinSheet = {
-                    isCoinFrom = false
-                    showBottomSheet = true
-                    onAction(ConvertScreenAction.FilterCoin(isCoinFrom = isCoinFrom))
+                CardConvertTo(
+                    modifier = Modifier.fillMaxWidth()
+                        .background(
+                            color = BackgroundTertiaryColor,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .height(120.dp).padding(vertical = 20.dp, horizontal = 10.dp),
+                    state = state,
+                    onCoinSheet = {
+                        isCoinFrom = false
+                        showBottomSheet = true
+                        onAction(ConvertScreenAction.FilterCurrency(isCoinFrom = isCoinFrom))
+                    }
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                ButtonSection(modifier = Modifier.fillMaxWidth(), state = state, onPreview = {
+                    showConfirmOrderBottomSheet = true
+                })
+
+            }
+
+            if (state.isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                        .background(tertiaryWhite)
+                        .align(Alignment.Center)
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = RayaColor
+                    )
                 }
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            ButtonSection(modifier = Modifier.fillMaxWidth(), state = state, onPreview = {
-                showConfirmOrderBottomSheet = true
-            })
-
+            }
         }
 
         if (showBottomSheet) {
@@ -180,11 +209,11 @@ fun ConvertScreen(
                 state = state,
                 sheetState = sheetState,
                 onDismiss = { showBottomSheet = false },
-                onItemSelect = { coin ->
+                onItemSelect = { currency ->
                     if (isCoinFrom) {
-                        onAction(ConvertScreenAction.CoinFrom(coin))
+                        onAction(ConvertScreenAction.CurrencyFrom(currency))
                     } else {
-                        onAction(ConvertScreenAction.CoinTo(coin))
+                        onAction(ConvertScreenAction.CurrencyTo(currency))
                     }
                 }
             )
@@ -196,17 +225,16 @@ fun ConvertScreen(
                 sheetState = sheetState,
                 onDismiss = { showConfirmOrderBottomSheet = false },
                 onItemSelect = {
-
+                    onAction(ConvertScreenAction.SaveTransaction)
                 }
             )
         }
-
     }
 }
 
 
 @Composable
-fun CoinItem(modifier: Modifier, item: Coin, onCoinSelect: (Coin) -> Unit) {
+fun CoinItem(modifier: Modifier, item: CurrencyType, onCoinSelect: (CurrencyType) -> Unit) {
     Row(
         modifier = modifier.clickable {
             onCoinSelect(item)
@@ -215,18 +243,18 @@ fun CoinItem(modifier: Modifier, item: Coin, onCoinSelect: (Coin) -> Unit) {
         Image(
             modifier = Modifier.width(27.dp).padding(end = 8.dp),
             contentDescription = item.name,
-            painter = painterResource(Coin.getCoinImage(item.currency)),
+            painter = painterResource(item.icon),
             alignment = Alignment.Center
         )
 
         Column {
             Text(
-                text = Coin.getCoin(item.currency).name,
+                text = item.label,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
             Text(
-                text = item.currency.name, fontWeight = FontWeight.Normal, fontSize = 12.sp
+                text = item.name, fontWeight = FontWeight.Normal, fontSize = 12.sp
             )
         }
 
@@ -254,7 +282,7 @@ fun CardConvertFrom(
         Row {
             CoinSelect(
                 modifier = Modifier,
-                coin = state.fromCoinSelected,
+                item = state.fromCoinSelected,
                 onCoinSheet = onCoinSheet
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -287,7 +315,7 @@ fun CardConvertTo(
 
             CoinSelect(
                 modifier = Modifier,
-                coin = state.toCoinSelected,
+                item = state.toCoinSelected,
                 onCoinSheet = onCoinSheet
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -306,7 +334,7 @@ fun CardConvertTo(
 @Composable
 fun CoinSelect(
     modifier: Modifier,
-    coin: Coin,
+    item: CurrencyType,
     onCoinSheet: () -> Unit,
 ) {
     Row(
@@ -317,12 +345,12 @@ fun CoinSelect(
         Image(
             modifier = Modifier.width(25.dp),
             contentDescription = "",
-            painter = painterResource(Coin.getCoinImage(currency = coin.currency)),
+            painter = painterResource(item.icon),
             alignment = Alignment.Center
         )
         Spacer(modifier = Modifier.width(4.dp))
 
-        TextMedium(text = coin.currency.name)
+        TextMedium(text = item.name)
 
         Box(
             modifier = Modifier.padding(4.dp).clickable {

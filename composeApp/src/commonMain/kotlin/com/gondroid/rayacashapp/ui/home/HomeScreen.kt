@@ -25,7 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gondroid.rayacashapp.domain.model.Balance
-import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.RayaColor
 import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
@@ -125,13 +124,13 @@ fun CardItem(modifier: Modifier, item: Balance) {
         Image(
             modifier = Modifier.width(27.dp).padding(end = 8.dp),
             contentDescription = item.currency.name,
-            painter = painterResource(Coin.getCoinImage(item.currency)),
+            painter = painterResource(item.currency.icon),
             alignment = Alignment.Center
         )
 
         Column {
             Text(
-                text = Coin.getCoin(item.currency).name,
+                text = item.currency.label,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )

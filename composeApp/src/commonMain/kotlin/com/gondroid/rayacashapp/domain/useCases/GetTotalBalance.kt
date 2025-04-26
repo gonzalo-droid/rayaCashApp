@@ -16,7 +16,7 @@ class GetTotalBalance(private val repository: Repository) {
     suspend operator fun invoke(): Result<BalanceAmountToARS> {
         return try {
             val balances: List<Balance> = repository.getBalances()
-            val result = repository.getConversionRatesToARS(listOf("usd", "bitcoin", "ethereum"))
+            val result = repository.getConversionRatesToARS()
 
             if (result.isSuccess) {
                 val conversionRates = result.getOrNull().orEmpty()

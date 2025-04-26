@@ -16,8 +16,3 @@ data class Balance(
     val updatedAt: String = getCurrentLocalTime()
 )
 
-private fun getCurrentLocalTime(): String {
-    val instant: Instant = Clock.System.now()
-    val localTime: LocalDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
-    return localTime.toString()
-}

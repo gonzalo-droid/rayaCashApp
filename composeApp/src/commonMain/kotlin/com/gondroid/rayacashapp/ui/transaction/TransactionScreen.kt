@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.RayaColor
@@ -124,7 +123,7 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
                 Image(
                     modifier = Modifier.width(15.dp),
                     contentDescription = "",
-                    painter = painterResource(Coin.getCoinImage(currency = item.fromCurrency)),
+                    painter = painterResource(item.fromCurrency.icon),
                     alignment = Alignment.Center
                 )
             }
@@ -157,7 +156,7 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
                 Image(
                     modifier = Modifier.width(15.dp),
                     contentDescription = "",
-                    painter = painterResource(Coin.getCoinImage(currency = item.toCurrency)),
+                    painter = painterResource(item.toCurrency.icon),
                     alignment = Alignment.CenterEnd
                 )
             }

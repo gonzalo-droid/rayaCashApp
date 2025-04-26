@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.gondroid.rayacashapp.domain.model.Coin
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.ui.convert.CoinItem
 import com.gondroid.rayacashapp.ui.convert.ConvertState
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
@@ -44,7 +44,7 @@ fun CoinBottomSheet(
     state: ConvertState,
     sheetState: SheetState,
     onDismiss: () -> Unit,
-    onItemSelect: (Coin) -> Unit
+    onItemSelect: (CurrencyType) -> Unit
 ) {
     ModalBottomSheet(
         modifier = Modifier.fillMaxSize(),
@@ -145,12 +145,12 @@ fun ConfirmOrderBottomSheet(
                         Image(
                             modifier = Modifier.width(27.dp).padding(end = 8.dp),
                             contentDescription = "",
-                            painter = painterResource(Coin.getCoinImage(state.fromCoinSelected.currency)),
+                            painter = painterResource(state.fromCoinSelected.icon),
                             alignment = Alignment.Center
                         )
 
                         TextSmall(text = "From")
-                        TextMedium(text = "${state.fromCoinField.text} ${state.fromCoinSelected.currency.name}")
+                        TextMedium(text = "${state.fromCoinField.text} ${state.fromCoinSelected.name}")
                     }
 
                     Icon(
@@ -169,12 +169,12 @@ fun ConfirmOrderBottomSheet(
                         Image(
                             modifier = Modifier.width(27.dp).padding(end = 8.dp),
                             contentDescription = "",
-                            painter = painterResource(Coin.getCoinImage(state.toCoinSelected.currency)),
+                            painter = painterResource(state.toCoinSelected.icon),
                             alignment = Alignment.Center
                         )
 
                         TextSmall(text = "To")
-                        TextMedium(text = "${state.amountConverted} ${state.toCoinSelected.currency.name}")
+                        TextMedium(text = "${state.amountConverted} ${state.toCoinSelected.name}")
                     }
                 }
 
@@ -195,7 +195,7 @@ fun ConfirmOrderBottomSheet(
                     TextSmall("Transaction Fees")
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = "0 ${state.toCoinSelected.currency.name}",
+                        text = "0 ${state.toCoinSelected.name}",
                         fontWeight = FontWeight.Normal,
                         fontSize = 14.sp
                     )
