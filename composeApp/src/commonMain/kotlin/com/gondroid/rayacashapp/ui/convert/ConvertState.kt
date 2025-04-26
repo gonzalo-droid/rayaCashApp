@@ -5,6 +5,7 @@ import com.gondroid.rayacashapp.KMMDecimal
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.domain.model.coinsList
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 
 data class ConvertState(
     val isLoading: Boolean = false,
@@ -15,5 +16,5 @@ data class ConvertState(
     val canConvert: Boolean = false,
     val balance: Balance = Balance(),
     val amountConverted: String = "0",
-    val conversionRates: Map<String, KMMDecimal> = emptyMap()
+    val conversionRates: Map<CurrencyType, KMMDecimal> = emptyMap()
 )

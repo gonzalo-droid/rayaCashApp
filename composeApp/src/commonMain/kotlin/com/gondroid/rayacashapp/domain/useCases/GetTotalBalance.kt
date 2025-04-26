@@ -5,7 +5,7 @@ import com.gondroid.rayacashapp.createDecimal
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.BalanceAmountToARS
-import com.gondroid.rayacashapp.domain.model.Currency
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.plus
 import com.gondroid.rayacashapp.roundToDecimal
 import com.gondroid.rayacashapp.times
@@ -53,15 +53,22 @@ class GetTotalBalance(private val repository: Repository) {
 
     fun getConversionRates(
         balance: Balance,
-        conversionRates: Map<String, KMMDecimal>
+        conversionRates: Map<CurrencyType, KMMDecimal>
     ): KMMDecimal {
         val amount = createDecimal(balance.amount)
         return when (balance.currency) {
-            Currency.ARS -> amount
-            Currency.USD -> amount.times(conversionRates["usd"] ?: createDecimal("0"))
-            Currency.BTC -> amount.times(conversionRates["bitcoin"] ?: createDecimal("0"))
-            Currency.ETH -> amount.times(conversionRates["ethereum"] ?: createDecimal("0"))
-            else -> createDecimal("0")
+            CurrencyType.ARS -> amount
+            CurrencyType.USD -> amount.times(
+                conversionRates[CurrencyType.USD] ?: createDecimal("0")
+            )
+
+            CurrencyType.BTC -> amount.times(
+                conversionRates[CurrencyType.BTC] ?: createDecimal("0")
+            )
+
+            CurrencyType.ETH -> amount.times(
+                conversionRates[CurrencyType.ETH] ?: createDecimal("0")
+            )
         }
     }
 

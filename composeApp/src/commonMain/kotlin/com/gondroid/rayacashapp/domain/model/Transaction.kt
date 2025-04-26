@@ -1,10 +1,12 @@
 package com.gondroid.rayacashapp.domain.model
 
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
+
 data class Transaction(
     val id: String,
-    val fromCurrency: Currency,
+    val fromCurrency: CurrencyType,
     val fromAmount: String,
-    val toCurrency: Currency,
+    val toCurrency: CurrencyType,
     val toAmount: String,
     val date: String,
     val status: TransactionStatus

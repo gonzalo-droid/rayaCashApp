@@ -3,7 +3,6 @@ package com.gondroid.rayacashapp.data.database.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.gondroid.rayacashapp.domain.model.Balance
-import com.gondroid.rayacashapp.domain.model.Currency
 import com.gondroid.rayacashapp.domain.model.getCurrency
 
 @Entity(tableName = "balances")

@@ -1,5 +1,6 @@
 package com.gondroid.rayacashapp.domain.model
 
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.DrawableResource
 import rayacashapp.composeapp.generated.resources.Res
@@ -10,56 +11,46 @@ import rayacashapp.composeapp.generated.resources.coin_usd
 
 @Serializable
 data class Coin(
-    val id: String, val currency: Currency, // "ARS", "USD", "BTC", "ETH"
-    val name: String, val image: String
+    val id: String,
+    val currency: CurrencyType,
+    val name: String,
 ) {
     companion object {
-        fun getCoinImage(currency: Currency): DrawableResource {
+        fun getCoinImage(currency: CurrencyType): DrawableResource {
             return when (currency) {
-                Currency.ARS -> Res.drawable.coin_ars
-                Currency.USD -> Res.drawable.coin_usd
-                Currency.BTC -> Res.drawable.coin_bitcoin
-                Currency.ETH -> Res.drawable.coin_ethereum
+                CurrencyType.ARS -> Res.drawable.coin_ars
+                CurrencyType.USD -> Res.drawable.coin_usd
+                CurrencyType.BTC -> Res.drawable.coin_bitcoin
+                CurrencyType.ETH -> Res.drawable.coin_ethereum
             }
         }
 
-        fun getCoin(currency: Currency): Coin {
+        fun getCoin(currency: CurrencyType): Coin {
             return coinsList.find { it.currency == currency }!!
         }
     }
 }
 
-enum class Currency {
-    ARS, USD, BTC, ETH
-}
 
 val coinsList = listOf(
     Coin(
-        id = "ars", currency = Currency.ARS, name = "Argentine Peso", image = "coin_ars.png"
+        id = "ars", currency = CurrencyType.ARS, name = "Argentine Peso"
     ), Coin(
-        id = "usd", currency = Currency.USD, name = "US Dollar", image = "coin_usd.png"
+        id = "usd", currency = CurrencyType.USD, name = "US Dollar"
     ), Coin(
-        id = "bitcoin", currency = Currency.BTC, name = "Bitcoin", image = "coin_bitcoin.png"
+        id = "bitcoin", currency = CurrencyType.BTC, name = "Bitcoin"
     ), Coin(
-        id = "ethereum", currency = Currency.ETH, name = "Ethereum", image = "coin_ethereum.png"
+        id = "ethereum", currency = CurrencyType.ETH, name = "Ethereum"
     )
 )
 
-fun getCurrency(currency: String): Currency {
+fun getCurrency(currency: String): CurrencyType {
     return when (currency) {
-        Currency.ARS.name -> Currency.ARS
-        Currency.USD.name -> Currency.USD
-        Currency.BTC.name -> Currency.BTC
-        Currency.ETH.name -> Currency.ETH
-        else -> Currency.ARS
+        CurrencyType.ARS.name -> CurrencyType.ARS
+        CurrencyType.USD.name -> CurrencyType.USD
+        CurrencyType.BTC.name -> CurrencyType.BTC
+        CurrencyType.ETH.name -> CurrencyType.ETH
+        else -> CurrencyType.ARS
     }
 }
 
-fun getIdCurrency(currency: Currency): String {
-    return when (currency) {
-        Currency.ARS -> "ars"
-        Currency.USD -> "usd"
-        Currency.BTC -> "bitcoin"
-        Currency.ETH -> "ethereum"
-    }
-}

@@ -3,9 +3,12 @@ package com.gondroid.rayacashapp.ui.convert
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gondroid.rayacashapp.createDecimal
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Coin
 import com.gondroid.rayacashapp.domain.model.coinsList
+import com.gondroid.rayacashapp.domain.model.convertRate.Currency
+import com.gondroid.rayacashapp.domain.model.convertRate.InMemoryConversionRateProvider
 import com.gondroid.rayacashapp.domain.useCases.GetCurrentRate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -96,12 +99,22 @@ class ConvertScreenViewModel(
         ) {
             viewModelScope.launch {
                 val result = withContext(Dispatchers.IO) {
-                    getCurrentRate(
-                        amount = amount,
-                        fromCurrency = _state.value.fromCoinSelected.currency,
-                        toCurrency = _state.value.toCoinSelected.currency,
-                        conversionRates = _state.value.conversionRates
-                    )
+                    try {
+                        val from = Currency(
+                            type = _state.value.fromCoinSelected.currency,
+                            value = createDecimal(amount)
+                        )
+                        val to = Currency(
+                            type = _state.value.toCoinSelected.currency,
+                            value = createDecimal("0")
+                        )
+
+                        val rateProvider = InMemoryConversionRateProvider(_state.value.conversionRates)
+
+                        getCurrentRate(from, to, rateProvider)
+                    } catch (e: Exception) {
+                        Result.failure(e)
+                    }
                 }
                 result.onSuccess {
                     _state.value = _state.value.copy(amountConverted = it)

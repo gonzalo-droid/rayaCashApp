@@ -8,11 +8,12 @@ import com.gondroid.rayacashapp.data.database.entity.TransactionEntity
 import com.gondroid.rayacashapp.data.remote.ApiService
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Balance
-import com.gondroid.rayacashapp.domain.model.Currency.ARS
-import com.gondroid.rayacashapp.domain.model.Currency.BTC
-import com.gondroid.rayacashapp.domain.model.Currency.ETH
-import com.gondroid.rayacashapp.domain.model.Currency.USD
 import com.gondroid.rayacashapp.domain.model.Transaction
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ARS
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.BTC
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ETH
+import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.USD
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -60,20 +61,22 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getConversionRatesToARS(ids: List<String>): Result<Map<String, KMMDecimal>> {
+    override suspend fun getConversionRatesToARS(ids: List<String>): Result<Map<CurrencyType, KMMDecimal>> {
         return try {
             val idsCoin = ids.joinToString(",")
             val response = apiService.getCoinPrice(coin = idsCoin, vsCurrency = "ars")
 
             val jsonObject = response.jsonObject
-            val resultMap = mutableMapOf<String, KMMDecimal>()
+            val resultMap = mutableMapOf<CurrencyType, KMMDecimal>()
 
             for ((coin, coinData) in jsonObject) {
                 val price = coinData.jsonObject["ars"]?.jsonPrimitive?.contentOrNull?.let {
                     createDecimal(it.toString())
                 }
-                if (price != null) {
-                    resultMap[coin] = price
+
+                val currencyType = getCurrencyTypeFromString(coin)
+                if (price != null && currencyType != null) {
+                    resultMap[currencyType] = price
                 }
             }
 
@@ -84,8 +87,18 @@ class RepositoryImpl(
 
     }
 
+    fun getCurrencyTypeFromString(coin: String): CurrencyType? {
+        return when (coin.lowercase()) {
+            "bitcoin" -> BTC
+            "ethereum" -> ETH
+            "usd" -> USD
+            else -> null
+        }
+    }
+
+
     override suspend fun updateBalance(balance: Balance) {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun getBalanceByCurrency(currency: String): Balance {
