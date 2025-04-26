@@ -95,7 +95,7 @@ fun ConfirmOrderBottomSheet(
     state: ConvertState,
     sheetState: SheetState,
     onDismiss: () -> Unit,
-    onItemSelect: () -> Unit
+    onConfirmOrder: () -> Unit
 ) {
     ModalBottomSheet(
         modifier = Modifier.fillMaxWidth(),
@@ -206,7 +206,7 @@ fun ConfirmOrderBottomSheet(
                 modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
                 enabled = state.canConvert,
                 onClick = {
-
+                    onConfirmOrder()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = RayaColor,
@@ -214,7 +214,7 @@ fun ConfirmOrderBottomSheet(
                 )
             ) {
                 Text(
-                    text = "Confirmar",
+                    text = "Confirm order",
                 )
             }
         }

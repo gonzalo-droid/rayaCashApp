@@ -44,7 +44,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
+import com.gondroid.rayacashapp.showToastMsg
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.BackgroundTertiaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
@@ -58,6 +60,7 @@ import com.gondroid.rayacashapp.ui.core.primaryBlack
 import com.gondroid.rayacashapp.ui.core.primaryWhite
 import com.gondroid.rayacashapp.ui.core.secondaryBlack
 import com.gondroid.rayacashapp.ui.core.tertiaryWhite
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -72,8 +75,21 @@ fun ConvertScreenRoot(
 ) {
     val viewModel = koinViewModel<ConvertScreenViewModel>()
     val state by viewModel.state.collectAsState()
-
+    val event = viewModel.event
     val fromTextField = state.fromCoinField
+
+    LaunchedEffect(true) {
+        event.collect { event ->
+            when (event) {
+                is ConvertEvent.Fail -> showToastMsg(event.message)
+                is ConvertEvent.Success -> {
+                    showToastMsg("Transacción realizada con éxito")
+                    delay(2000)
+                    navigateBack()
+                }
+            }
+        }
+    }
 
     LaunchedEffect(fromTextField) {
         snapshotFlow { fromTextField.text }
@@ -193,8 +209,9 @@ fun ConvertScreen(
             if (state.isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize()
-                        .background(tertiaryWhite)
+                        .background(tertiaryWhite.copy(alpha = 0.5f))
                         .align(Alignment.Center)
+                        .zIndex(1f)
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
@@ -224,8 +241,9 @@ fun ConvertScreen(
                 state = state,
                 sheetState = sheetState,
                 onDismiss = { showConfirmOrderBottomSheet = false },
-                onItemSelect = {
+                onConfirmOrder = {
                     onAction(ConvertScreenAction.SaveTransaction)
+                    showConfirmOrderBottomSheet = false
                 }
             )
         }

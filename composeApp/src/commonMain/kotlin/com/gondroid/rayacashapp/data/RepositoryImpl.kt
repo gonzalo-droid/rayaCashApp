@@ -3,8 +3,8 @@ package com.gondroid.rayacashapp.data
 import com.gondroid.rayacashapp.KMMDecimal
 import com.gondroid.rayacashapp.createDecimal
 import com.gondroid.rayacashapp.data.database.RayaCashDatabase
-import com.gondroid.rayacashapp.data.database.entity.fakeBalanceEntities
-import com.gondroid.rayacashapp.data.database.entity.fakeTransactionEntities
+import com.gondroid.rayacashapp.data.database.fakeBalanceEntities
+import com.gondroid.rayacashapp.data.database.fakeTransactionEntities
 import com.gondroid.rayacashapp.data.remote.ApiService
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Balance

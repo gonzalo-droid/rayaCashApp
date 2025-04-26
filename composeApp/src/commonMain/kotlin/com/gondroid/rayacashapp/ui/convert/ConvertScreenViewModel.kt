@@ -13,10 +13,12 @@ import com.gondroid.rayacashapp.domain.model.convertRate.currencyList
 import com.gondroid.rayacashapp.domain.useCases.GetCurrentRate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -28,6 +30,8 @@ class ConvertScreenViewModel(
     private val _state = MutableStateFlow<ConvertState>(ConvertState(conversionRates = emptyMap()))
     val state: StateFlow<ConvertState> = _state
 
+    private var eventChannel = Channel<ConvertEvent>()
+    val event = eventChannel.receiveAsFlow()
 
     private val canConvert = snapshotFlow { state.value.fromCoinField.text.toString() }
 
@@ -90,13 +94,8 @@ class ConvertScreenViewModel(
     }
 
     fun convertAmount(amount: String) {
-        if (amount.isBlank()) {
-            _state.value = _state.value.copy(amountConverted = "0")
-            return
-        }
-
         if (
-            _state.value.conversionRates.isNotEmpty()
+            _state.value.conversionRates.isNotEmpty() && amount.isNotBlank()
         ) {
             viewModelScope.launch {
                 val result = withContext(Dispatchers.IO) {
@@ -141,6 +140,9 @@ class ConvertScreenViewModel(
                 repository.saveTransaction(transaction)
             }
             _state.value = _state.value.copy(isLoading = false)
+
+            eventChannel.send(ConvertEvent.Success)
+
 
         }
     }

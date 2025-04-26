@@ -1,6 +1,7 @@
-package com.gondroid.rayacashapp.data.database.entity
+package com.gondroid.rayacashapp.data.database
 
-import com.gondroid.rayacashapp.data.database.generateUUID
+import com.gondroid.rayacashapp.data.database.entity.BalanceEntity
+import com.gondroid.rayacashapp.data.database.entity.TransactionEntity
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ARS
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.BTC
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ETH

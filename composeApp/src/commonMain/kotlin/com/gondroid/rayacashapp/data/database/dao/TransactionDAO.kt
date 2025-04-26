@@ -9,7 +9,7 @@ import com.gondroid.rayacashapp.data.database.entity.TransactionEntity
 @Dao
 interface TransactionDAO {
 
-    @Query("SELECT * FROM transactions")
+    @Query("SELECT * FROM transactions ORDER BY date DESC")
     suspend fun getAllTransactions(): List<TransactionEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

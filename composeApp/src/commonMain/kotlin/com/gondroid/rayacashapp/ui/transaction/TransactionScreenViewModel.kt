@@ -18,11 +18,15 @@ class TransactionScreenViewModel(
     val state: StateFlow<TransactionState> = _state
 
     init {
+        _state.value = _state.value.copy(isLoading = true)
+    }
+
+    fun loadTransactions() {
         viewModelScope.launch {
             val transactions = withContext(Dispatchers.IO) {
                 repository.getAllTransactions()
             }
-            _state.value = _state.value.copy(transactions = transactions)
+            _state.value = _state.value.copy(transactions = transactions, isLoading = false)
         }
     }
 }
