@@ -40,3 +40,20 @@ actual fun KMMDecimal.roundToDecimal(decimal: Int): KMMDecimal {
     val rounded = decimalNumber.decimalNumberByRoundingAccordingToBehavior(handler)
     return IOSDecimal(rounded.stringValue)
 }
+
+actual fun KMMDecimal.div(other: KMMDecimal): KMMDecimal {
+    val thisDecimal = (this as IOSDecimal).decimal
+    val otherDecimal = (other as IOSDecimal).decimal
+
+    val behavior = NSDecimalNumberHandler.decimalNumberHandlerWithRoundingMode(
+        roundingMode = NSRoundingMode.NSRoundPlain,
+        scale = 10,
+        raiseOnExactness = false,
+        raiseOnOverflow = false,
+        raiseOnUnderflow = false,
+        raiseOnDivideByZero = false
+    )
+
+    val result = thisDecimal.decimalNumberByDividingBy(otherDecimal, withBehavior = behavior)
+    return IOSDecimal(result.stringValue)
+}

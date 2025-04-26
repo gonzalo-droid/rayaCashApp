@@ -20,9 +20,6 @@ data class Coin(
                 Currency.USD -> Res.drawable.coin_usd
                 Currency.BTC -> Res.drawable.coin_bitcoin
                 Currency.ETH -> Res.drawable.coin_ethereum
-                else -> {
-                    Res.drawable.coin_usd
-                }
             }
         }
 
@@ -33,7 +30,7 @@ data class Coin(
 }
 
 enum class Currency {
-    ARS, USD, BTC, ETH, UNKNOWN
+    ARS, USD, BTC, ETH
 }
 
 val coinsList = listOf(
@@ -54,8 +51,15 @@ fun getCurrency(currency: String): Currency {
         Currency.USD.name -> Currency.USD
         Currency.BTC.name -> Currency.BTC
         Currency.ETH.name -> Currency.ETH
-        else -> {
-            Currency.UNKNOWN
-        }
+        else -> Currency.ARS
+    }
+}
+
+fun getIdCurrency(currency: Currency): String {
+    return when (currency) {
+        Currency.ARS -> "ars"
+        Currency.USD -> "usd"
+        Currency.BTC -> "bitcoin"
+        Currency.ETH -> "ethereum"
     }
 }

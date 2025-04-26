@@ -13,3 +13,5 @@ expect fun createDecimal(value: String): KMMDecimal
 expect fun KMMDecimal.times(other: KMMDecimal): KMMDecimal
 
 expect fun KMMDecimal.roundToDecimal(decimal: Int = 2): KMMDecimal
+
+expect fun KMMDecimal.div(other: KMMDecimal): KMMDecimal

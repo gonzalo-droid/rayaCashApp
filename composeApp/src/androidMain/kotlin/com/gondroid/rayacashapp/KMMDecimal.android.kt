@@ -31,3 +31,10 @@ actual fun KMMDecimal.roundToDecimal(decimal: Int): KMMDecimal {
         .decimal.setScale(decimal, RoundingMode.HALF_UP)
     return AndroidDecimal(rounded.toPlainString())
 }
+
+actual fun KMMDecimal.div(other: KMMDecimal): KMMDecimal {
+    val thisDecimal = (this as AndroidDecimal).decimal
+    val otherDecimal = (other as AndroidDecimal).decimal
+    val result = thisDecimal.divide(otherDecimal, 10, RoundingMode.HALF_UP) // escala de 10 decimales
+    return AndroidDecimal(result.setScale(10, RoundingMode.HALF_UP).toPlainString())
+}
