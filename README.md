@@ -7,8 +7,8 @@
 </p>
 
 <p align="center">  
-RayaCash App, proyecto kotlin multiplataforma android/ios, Compose, Ktor, Koin, Coroutines, Flow
-Room, ViewModel, Material3, arquitectura MVVM.
+RayaCash es una aplicación móvil de conversión de criptomonedas y gestión de transacciones, desarrollada con Kotlin Multiplatform (Android/iOS).  
+Permite consultar precios actualizados, convertir entre monedas y registrar transacciones fácilmente.
 </p>
 
 <p align="center">
@@ -16,21 +16,20 @@ Room, ViewModel, Material3, arquitectura MVVM.
 </p>
 
 ## RayaCash App
-RayaCash es una aplicación de finanzas desarrollada en [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html) para Android/iOS. Permite registrar transacciones, visualizar balances convertidos a pesos argentinos (ARS), y realizar conversiones entre monedas como USD, BTC y ETH.
+RayaCash es una aplicación de conversión de criptomonedas y divisas. Desarrollada en [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html) para Android/iOS. Permite registrar transacciones, visualizar balances convertidos a pesos argentinos (ARS), y realizar conversiones entre monedas como USD, BTC y ETH.
 
 
 ## Features
-
--  Visualización de transacciones recientes
--  Conversión de montos entre monedas
--  Cálculo del balance total en ARS
--  Manejo de estados con `StateFlow`
--  UI moderna con `Jetpack Compose` y `Material3`
--  Arquitectura limpia con `MVVM`
--  Reutilización de lógica compartida en Android/iOS
+- Consulta de tasas de cambio actualizadas (USD, BTC, ETH, ARS).
+- Conversión de montos entre monedas (AR, USD, BTC, ETH)
+- Soporte multiplataforma (Android e iOS).
+- Visualización de transacciones de converción recientes
+- Cálculo del balance total en ARS
+- Manejo de estados con `StateFlow`
+- UI moderna con `Jetpack Compose` y `Material3`
+- Arquitectura limpia con `MVVM`
 
 ## Tech Stack
-
 - **SDK minSdk:** 24.  
 - **SDK targetSdk:** 35.  
 - **Kotlin Multiplatform (KMP)** Reutilización de lógica de negocio en Android e iOS [Kotlin KMP](https://kotlinlang.org/lp/multiplatform/)  -
@@ -38,7 +37,6 @@ RayaCash es una aplicación de finanzas desarrollada en [Kotlin Multiplatform](h
 - **Koin** Inyección de dependencias liviana y flexible [Koin](https://insert-koin.io/)                          
 - **Material3** Implementación del sistema de diseño Material Design actualizado [Material3](https://m3.material.io/) 
 - Basado en [Kotlin](https://kotlinlang.org/), utilizando [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) para operaciones asíncronas.  
-
 - **Jetpack Compose:** Kit de herramientas moderno de Android para desarrollo de UI declarativa.  
 - **Lifecycle:** Observa los ciclos de vida de Android y gestiona los estados de UI ante cambios de ciclo de vida.  
 - **ViewModel:** Administra datos relacionados con la UI y es consciente del ciclo de vida, asegurando la persistencia de datos tras cambios de configuración.  
@@ -50,23 +48,28 @@ RayaCash es una aplicación de finanzas desarrollada en [Kotlin Multiplatform](h
 - **[ksp](https://github.com/google/ksp):** API de procesamiento de símbolos en Kotlin para generación y análisis de código.  
 
 
-
 ## Architecture
-**RayaCash App** sigue la aquitectura MVVM e implementa patrón Repository, alineado con [Guía oficl de arquitectura de Google](https://developer.android.com/topic/architecture).
+**RayaCash App**  sigue el patrón de arquitectura MVVM (Model-View-ViewModel) y se estructura en capas bien definidas para garantizar el mantenimiento, escalabilidad y separación de responsabilidades:
+[Guía oficl de arquitectura de Google](https://developer.android.com/topic/architecture).
 
-La arquitectura de **RayaCash App** está estructurada en dos capas distintas: la capa de UI y la capa de datos. Cada capa cumple roles y responsabilidades específicas, que se describen a continuación.  
-
+Model View ViewModel (MVVM)
 - `Model`: Repositorios, acceso a la base de datos (Room), y clientes de red (Ktor)
 - `ViewModel`: Lógica de presentación, manejo de estados con `StateFlow`
 - `View`: Composables que representan la UI, observan el estado y reaccionan a eventos
 
-## 📁 Project Structure
+Layer : Presentation, Domain, Data. 
+
+- `Presentation`: Maneja todo lo relacionado a la interfaz de usuario (UI), estados (State), eventos (Event) y ViewModels.
+- `Domain`: Contiene los modelos de negocio (model) y los casos de uso (usecase) que definen la lógica de la aplicación de forma independiente a cualquier framework o librería.
+- `Data`: Implementa la lógica de acceso a datos, ya sea local (Room Database) o remoto (API con Ktor). Está dividida en repository, local y remote.
+Esta organización sigue las buenas prácticas de arquitectura limpia (Clean Architecture) adaptadas al contexto de aplicaciones móviles.
+
+## Project Structure
 
 ```plaintext
 RayaCash/
 ├── androidApp/               # Código específico de Android
-│   ├── ui/                   # Composables y navegación con Jetpack Compose
-│   ├── viewmodel/            # ViewModels específicos de Android
+│   ├── data/database         # Inicialización Room de Android
 │   └── di/                   # Inyección de dependencias para Android
 ├── iosApp/                   # Código específico de iOS (SwiftUI/Combine si aplica)
 ├── shared/                   # Módulo multiplataforma (Kotlin común)
@@ -89,7 +92,7 @@ RayaCash/
 
 
 
-## 🛠️ Instalación y Configuración  
+## Instalación y Configuración  
 
 ##### 1️⃣ Clone Repository
 ```bash
@@ -100,7 +103,6 @@ git clone https://github.com/gonzalo-droid/rayaCashApp
 - Regístrate o inicia sesión.
 - Dirígete a la sección API de tu cuenta y genera una nueva clave de API
 ##### 3️⃣ Agregar la Clave de API en /commonMain/di/DataModule.kt
-- En la raíz del proyecto, crea (o actualiza) un archivo llamado local.properties y agrega la siguiente línea:
 ```bash
 const val COIN_GECKO_API_KEY = "TU_API_KEY"
 const val API_HOST = "api.coingecko.com"
@@ -112,6 +114,7 @@ const val API_KEY = "x-cg-demo-api-key"
 ./gradlew run
 ```
 Para Android, abre el proyecto en Android Studio y ejecuta la aplicación desde allí. 
+
 ** Recuerda que para iOS necesitar una mac y así emular en un iphone
 
 
