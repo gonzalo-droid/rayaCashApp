@@ -1,15 +1,15 @@
 package com.gondroid.rayacashapp.domain.useCases
 
-import com.gondroid.rayacashapp.KMMDecimal
-import com.gondroid.rayacashapp.createDecimal
+import com.gondroid.rayacashapp.shared.KMMDecimal
+import com.gondroid.rayacashapp.shared.createDecimal
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.BalanceAmountToARS
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
-import com.gondroid.rayacashapp.plus
-import com.gondroid.rayacashapp.roundToDecimal
-import com.gondroid.rayacashapp.times
-import com.gondroid.rayacashapp.toPlainString
+import com.gondroid.rayacashapp.shared.plus
+import com.gondroid.rayacashapp.shared.roundToDecimal
+import com.gondroid.rayacashapp.shared.times
+import com.gondroid.rayacashapp.shared.toPlainString
 
 class GetTotalBalance(private val repository: Repository) {
 

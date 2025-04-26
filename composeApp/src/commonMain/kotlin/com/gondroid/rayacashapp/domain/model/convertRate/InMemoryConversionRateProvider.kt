@@ -1,7 +1,7 @@
 package com.gondroid.rayacashapp.domain.model.convertRate
 
-import com.gondroid.rayacashapp.KMMDecimal
-import com.gondroid.rayacashapp.createDecimal
+import com.gondroid.rayacashapp.shared.KMMDecimal
+import com.gondroid.rayacashapp.shared.createDecimal
 
 class InMemoryConversionRateProvider(
     private val rates: Map<CurrencyType, KMMDecimal>

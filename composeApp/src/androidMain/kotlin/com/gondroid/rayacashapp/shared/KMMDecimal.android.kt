@@ -1,7 +1,6 @@
-package com.gondroid.rayacashapp
+package com.gondroid.rayacashapp.shared
 
 import java.math.BigDecimal
-import java.math.MathContext
 import java.math.RoundingMode
 
 class AndroidDecimal(override val value: String) : KMMDecimal {

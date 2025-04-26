@@ -1,6 +1,6 @@
 package com.gondroid.rayacashapp.domain.model.convertRate
 
-import com.gondroid.rayacashapp.KMMDecimal
+import com.gondroid.rayacashapp.shared.KMMDecimal
 
 interface Convertible {
     val value: KMMDecimal

@@ -1,3 +1,3 @@
-package com.gondroid.rayacashapp
+package com.gondroid.rayacashapp.shared
 
 expect fun formatLocalDateTimeString(isoString: String): String

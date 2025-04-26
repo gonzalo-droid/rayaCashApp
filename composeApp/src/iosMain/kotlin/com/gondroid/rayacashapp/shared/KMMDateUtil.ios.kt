@@ -1,5 +1,6 @@
-package com.gondroid.rayacashapp
+package com.gondroid.rayacashapp.shared
 
+import kotlinx.datetime.LocalDateTime
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSDate
 import platform.Foundation.NSDateComponents
@@ -8,7 +9,7 @@ import platform.Foundation.NSTimeZone
 import platform.Foundation.systemTimeZone
 
 actual fun formatLocalDateTimeString(isoString: String): String {
-    val dateTime = kotlinx.datetime.LocalDateTime.parse(isoString)
+    val dateTime = LocalDateTime.parse(isoString)
 
     val components = NSDateComponents().apply {
         year = dateTime.year.toLong()

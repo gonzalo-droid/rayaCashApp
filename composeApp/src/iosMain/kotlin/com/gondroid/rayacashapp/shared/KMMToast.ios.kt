@@ -1,4 +1,4 @@
-package com.gondroid.rayacashapp
+package com.gondroid.rayacashapp.shared
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents

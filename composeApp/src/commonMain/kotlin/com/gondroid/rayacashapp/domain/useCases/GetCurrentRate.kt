@@ -2,7 +2,7 @@ package com.gondroid.rayacashapp.domain.useCases
 
 import com.gondroid.rayacashapp.domain.model.convertRate.ConversionRateProvider
 import com.gondroid.rayacashapp.domain.model.convertRate.Convertible
-import com.gondroid.rayacashapp.toPlainString
+import com.gondroid.rayacashapp.shared.toPlainString
 
 class GetCurrentRate() {
 

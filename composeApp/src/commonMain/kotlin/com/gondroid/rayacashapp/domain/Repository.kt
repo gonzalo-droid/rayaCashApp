@@ -1,6 +1,6 @@
 package com.gondroid.rayacashapp.domain
 
-import com.gondroid.rayacashapp.KMMDecimal
+import com.gondroid.rayacashapp.shared.KMMDecimal
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType

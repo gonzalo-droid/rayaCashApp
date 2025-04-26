@@ -1,12 +1,12 @@
 package com.gondroid.rayacashapp.domain.model.convertRate
 
-import com.gondroid.rayacashapp.KMMDecimal
-import com.gondroid.rayacashapp.div
+import com.gondroid.rayacashapp.shared.KMMDecimal
+import com.gondroid.rayacashapp.shared.div
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ARS
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.BTC
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ETH
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.USD
-import com.gondroid.rayacashapp.times
+import com.gondroid.rayacashapp.shared.times
 import org.jetbrains.compose.resources.DrawableResource
 import rayacashapp.composeapp.generated.resources.Res
 import rayacashapp.composeapp.generated.resources.coin_ars

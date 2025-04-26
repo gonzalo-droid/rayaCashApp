@@ -68,28 +68,31 @@ Esta organización sigue las buenas prácticas de arquitectura limpia (Clean Arc
 
 ```plaintext
 RayaCash/
-├── androidApp/               # Código específico de Android
-│   ├── data/database         # Inicialización Room de Android
-│   └── di/                   # Inyección de dependencias para Android
-├── iosApp/                   # Código específico de iOS (SwiftUI/Combine si aplica)
-├── shared/                   # Módulo multiplataforma (Kotlin común)
+├── androidMain/               # Código específico de Android
+│   ├── data/database          # Inicialización Room de Android
+│   └── di/                    # Inyección de dependencias para Android
+│   └── shared/                # Clases aplicadas solo para Android (Toast, BigDecimal, DateUtil)
+├── commonMain/                # Módulo multiplataforma (Kotlin común)
 │   ├── data/
-│   │   ├── repository/        # Repositorios que acceden a local y remote
-│   │   ├── local/             # Implementación de Room Database
-│   │   ├── remote/            # Implementación de Ktor Client para APIs
+│   │   ├── database/          # Database, DAOS y Entities
+│   │   ├── remote/            # Implementación de Room Database
+│   │   ├── remote/            # Ktor Client para APIs, ApiService
+│   ├── di/                    # Inyección de dependencias común (Koin)
 │   ├── domain/
 │   │   ├── model/             # Entidades y modelos de negocio
 │   │   ├── usecase/           # Casos de uso de la aplicación
-│   ├── presentation/
-│   │   ├── state/             # Clases de estado de la UI
-│   │   ├── event/             # Clases de eventos de la UI
-│   │   ├── viewmodel/         # ViewModels multiplataforma
-│   ├── di/                    # Inyección de dependencias común (Koin)
-│   ├── utils/                 # Utilidades y extensiones compartidas
-├── build.gradle.kts           # Configuración de la raíz del proyecto
-└── settings.gradle.kts        # Configuración de módulos
+│   └── shared/                # Expect functions para Android/iOS
+│   ├── ui/
+│   │   ├── core/              # Componentes, navegación y funciones de extensión
+│   │   ├── convert/           # Scree, ViewModel, State, Action y Event, conversión de monedas
+│   │   ├── home/              # Scree, ViewModel y State, mi portafolio
+│   │   ├── transacion/        # Scree, Viewmodel y State, para mostras las transacciones
+├── iosMain/                   # Código específico de iOS (SwiftUI/Combine si aplica)
+│   ├── data/database          # Inicialización Room de iOS
+│   └── di/                    # Inyección de dependencias para iOS
+│   └── shared/                # Clases aplicadas solo para iOS (Toast, NSDecimalNumber, DateUtil)
+├── build.gradle.kts           # Configuración de composeApp
 ```
-
 
 
 ## Instalación y Configuración  

@@ -1,4 +1,4 @@
-package com.gondroid.rayacashapp
+package com.gondroid.rayacashapp.shared
 
 interface Platform {
     val name: String

@@ -1,7 +1,7 @@
 package com.gondroid.rayacashapp.data
 
-import com.gondroid.rayacashapp.KMMDecimal
-import com.gondroid.rayacashapp.createDecimal
+import com.gondroid.rayacashapp.shared.KMMDecimal
+import com.gondroid.rayacashapp.shared.createDecimal
 import com.gondroid.rayacashapp.data.database.RayaCashDatabase
 import com.gondroid.rayacashapp.data.database.fakeBalanceEntities
 import com.gondroid.rayacashapp.data.database.fakeTransactionEntities

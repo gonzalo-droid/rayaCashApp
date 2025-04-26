@@ -3,7 +3,7 @@ package com.gondroid.rayacashapp.ui.convert
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gondroid.rayacashapp.createDecimal
+import com.gondroid.rayacashapp.shared.createDecimal
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.domain.model.convertRate.Currency

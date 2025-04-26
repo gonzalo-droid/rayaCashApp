@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.domain.model.TransactionStatus
 import com.gondroid.rayacashapp.domain.model.convertRate.getCurrency
-import com.gondroid.rayacashapp.formatLocalDateTimeString
+import com.gondroid.rayacashapp.shared.formatLocalDateTimeString
 
 
 @Entity(tableName = "transactions")

@@ -1,4 +1,4 @@
-package com.gondroid.rayacashapp
+package com.gondroid.rayacashapp.shared
 
 import android.os.Build
 import androidx.annotation.RequiresApi

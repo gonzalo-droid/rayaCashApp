@@ -1,4 +1,4 @@
-package com.gondroid.rayacashapp
+package com.gondroid.rayacashapp.shared
 
 enum class ToastDurationType{
     SHORT,

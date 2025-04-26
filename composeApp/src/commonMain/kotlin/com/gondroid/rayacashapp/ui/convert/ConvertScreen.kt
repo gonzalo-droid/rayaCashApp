@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
-import com.gondroid.rayacashapp.showToastMsg
+import com.gondroid.rayacashapp.shared.showToastMsg
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.BackgroundTertiaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
