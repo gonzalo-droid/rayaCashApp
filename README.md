@@ -76,7 +76,6 @@ RayaCash/
 ├── commonMain/                # Módulo multiplataforma (Kotlin común)
 │   ├── data/
 │   │   ├── database/          # Database, DAOS y Entities
-│   │   ├── remote/            # Implementación de Room Database
 │   │   ├── remote/            # Ktor Client para APIs, ApiService
 │   ├── di/                    # Inyección de dependencias común (Koin)
 │   ├── domain/
