@@ -19,7 +19,9 @@ class GetTotalBalance(
 
     suspend operator fun invoke(): Result<BalanceAmountToARS> {
         return try {
+
             val balances: List<Balance> = repository.getBalances()
+
             val result = repository.getConversionRatesToARS()
 
             if (result.isSuccess) {
@@ -44,9 +46,8 @@ class GetTotalBalance(
                 currenciesFrom.forEach { currency ->
                     totalInARS = totalInARS.plus(currency.convertTo(argConvert, rateProvider))
                 }
-
-
-                val balances = balances.map { balance ->
+                println("Total en ARS: ${totalInARS.toPlainString()}")
+                val updatedBalances = balances.map { balance ->
                     val currency = Currency(
                         type = balance.currency,
                         value = createDecimal(balance.amount)
@@ -60,13 +61,13 @@ class GetTotalBalance(
 
                 val data = BalanceAmountToARS(
                     totalBalance = "ARS ${totalInARS.roundToDecimal().toPlainString()}",
-                    balances = balances
+                    balances = updatedBalances
                 )
 
                 Result.success(data)
             } else {
                 val error = result.exceptionOrNull()
-                println("Error al obtener tasas de conversión: ${error?.message}")
+                println("Error al obtener los balances: ${error?.message}")
                 Result.failure(error ?: Exception("Error desconocido"))
             }
         } catch (e: Exception) {

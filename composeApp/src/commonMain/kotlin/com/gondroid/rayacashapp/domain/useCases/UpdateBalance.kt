@@ -20,8 +20,9 @@ class UpdateBalance(private val repository: Repository) {
             val result = repository.saveTransaction(transaction)
             if (result) {
                 val currencyFrom = transaction.fromCurrency
-                val currencyTo = transaction.toCurrency
                 val amountFrom = createDecimal(transaction.fromAmount)
+
+                val currencyTo = transaction.toCurrency
                 val amountTo = createDecimal(transaction.toAmount)
 
                 val currencies = listOf(currencyFrom.name, currencyTo.name)

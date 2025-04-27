@@ -48,6 +48,7 @@ kotlin {
             implementation(libs.kotlin.test.junit)
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.kotlinx.coroutines.core)
         }
 
         commonMain.dependencies {
