@@ -16,11 +16,15 @@ interface BalanceDAO {
     suspend fun insertBalances(balances: List<BalanceEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertBalance(balance: BalanceEntity)
+    suspend fun upsertBalances(balances: List<BalanceEntity>)
 
     @Query("UPDATE balances SET amount = :amount WHERE currency = :currency")
     suspend fun updateBalance(currency: String, amount: Double)
 
     @Query("SELECT * FROM balances WHERE currency = :currency LIMIT 1")
     suspend fun getBalanceForCurrency(currency: String): BalanceEntity
+
+    @Query("SELECT * FROM balances WHERE currency IN (:currencies)")
+    suspend fun getBalancesForCurrencies(currencies: List<String>): List<BalanceEntity>
+
 }

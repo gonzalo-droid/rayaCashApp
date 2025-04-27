@@ -1,11 +1,11 @@
 package com.gondroid.rayacashapp.domain.model.convertRate
 
-import com.gondroid.rayacashapp.shared.KMMDecimal
-import com.gondroid.rayacashapp.shared.div
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ARS
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.BTC
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ETH
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.USD
+import com.gondroid.rayacashapp.shared.KMMDecimal
+import com.gondroid.rayacashapp.shared.div
 import com.gondroid.rayacashapp.shared.times
 import org.jetbrains.compose.resources.DrawableResource
 import rayacashapp.composeapp.generated.resources.Res
@@ -14,14 +14,19 @@ import rayacashapp.composeapp.generated.resources.coin_bitcoin
 import rayacashapp.composeapp.generated.resources.coin_ethereum
 import rayacashapp.composeapp.generated.resources.coin_usd
 
-enum class CurrencyType(val id: String, val label: String, val icon: DrawableResource) {
-    ARS(id = "ars", label = "Argentine Peso", icon = Res.drawable.coin_ars),
-    USD(id = "usd", label = "US Dollar", icon = Res.drawable.coin_usd),
-    BTC(id = "bitcoin", label = "Bitcoin", icon = Res.drawable.coin_bitcoin),
-    ETH(id = "ethereum", label = "Ethereum", icon = Res.drawable.coin_ethereum),
+enum class CurrencyType(
+    val id: String,
+    val label: String,
+    val icon: DrawableResource,
+    val decimal: Int = 2
+) {
+    ARS(id = "ars", label = "Argentine Peso", icon = Res.drawable.coin_ars, decimal = 2),
+    USD(id = "usd", label = "US Dollar", icon = Res.drawable.coin_usd, decimal = 2),
+    BTC(id = "bitcoin", label = "Bitcoin", icon = Res.drawable.coin_bitcoin, decimal = 10),
+    ETH(id = "ethereum", label = "Ethereum", icon = Res.drawable.coin_ethereum, decimal = 10),
 }
 
-val currencyList : List<CurrencyType> = CurrencyType.entries
+val currencyList: List<CurrencyType> = CurrencyType.entries
 
 
 fun getCurrencyTypeFromString(coin: String): CurrencyType? {

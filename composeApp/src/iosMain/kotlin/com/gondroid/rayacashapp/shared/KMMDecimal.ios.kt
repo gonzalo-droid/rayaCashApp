@@ -1,7 +1,9 @@
 package com.gondroid.rayacashapp.shared
 
+import platform.Foundation.NSComparisonResult
 import platform.Foundation.NSDecimalNumber
 import platform.Foundation.NSDecimalNumberHandler
+import platform.Foundation.NSOrderedAscending
 import platform.Foundation.NSRoundingMode
 
 class IOSDecimal(override val value: String) : KMMDecimal {
@@ -56,4 +58,14 @@ actual fun KMMDecimal.div(other: KMMDecimal): KMMDecimal {
 
     val result = thisDecimal.decimalNumberByDividingBy(otherDecimal, withBehavior = behavior)
     return IOSDecimal(result.stringValue)
+}
+
+actual fun KMMDecimal.subtract(other: KMMDecimal): KMMDecimal {
+    val thisDecimal = (this as IOSDecimal).decimal
+    val otherDecimal = (other as IOSDecimal).decimal
+    return if (thisDecimal.compare(otherDecimal) == NSOrderedAscending /* equals -1 */) {
+        IOSDecimal(NSDecimalNumber.zero.stringValue)
+    } else {
+        IOSDecimal(thisDecimal.decimalNumberBySubtracting(otherDecimal).stringValue)
+    }
 }

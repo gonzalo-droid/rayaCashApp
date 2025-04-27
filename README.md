@@ -149,9 +149,10 @@ Para Android, abre el proyecto en Android Studio y ejecuta la aplicación desde 
 
 Aún estoy definiendo el formato 🫠, pero lo importante es empezar. 
 ¡Suscríbete y vamos a codear!
-- [YouTube](https://www.youtube.com/@gonzalolock)
-- [TikTok](https://www.tiktok.com/@gonzalock.dev)
+- [YouTube](https://www.youtube.com/@GonzaloDroid2050)
+- [TikTok](https://www.tiktok.com/@gonzalodroid)
 - [LinkedIn](https://www.linkedin.com/in/gonzalo-lozg/)
+- [Github](https://github.com/gonzalo-droid)
 
 
 ## 🚧 Próximas mejoras

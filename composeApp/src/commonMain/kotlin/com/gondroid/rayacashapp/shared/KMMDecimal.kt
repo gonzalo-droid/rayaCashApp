@@ -6,6 +6,8 @@ interface KMMDecimal {
 
 expect fun KMMDecimal.plus(other: KMMDecimal): KMMDecimal
 
+expect fun KMMDecimal.subtract(other: KMMDecimal): KMMDecimal
+
 expect fun KMMDecimal.toPlainString(): String
 
 expect fun createDecimal(value: String): KMMDecimal

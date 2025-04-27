@@ -3,7 +3,6 @@ package com.gondroid.rayacashapp.ui.convert
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gondroid.rayacashapp.shared.createDecimal
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.domain.model.convertRate.Currency
@@ -11,6 +10,8 @@ import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.domain.model.convertRate.InMemoryConversionRateProvider
 import com.gondroid.rayacashapp.domain.model.convertRate.currencyList
 import com.gondroid.rayacashapp.domain.useCases.GetCurrentRate
+import com.gondroid.rayacashapp.domain.useCases.UpdateBalance
+import com.gondroid.rayacashapp.shared.createDecimal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.Channel
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ConvertScreenViewModel(
+    private val updateBalance: UpdateBalance,
     private val getCurrentRate: GetCurrentRate,
     private val repository: Repository
 ) : ViewModel() {
@@ -137,12 +139,16 @@ class ConvertScreenViewModel(
                 toAmount = _state.value.amountConverted,
             )
             val result = withContext(Dispatchers.IO) {
-                repository.saveTransaction(transaction)
+                updateBalance(transaction)
             }
-            _state.value = _state.value.copy(isLoading = false)
 
-            eventChannel.send(ConvertEvent.Success)
-
+            result.onSuccess {
+                _state.value = _state.value.copy(isLoading = false)
+                eventChannel.send(ConvertEvent.Success)
+            }.onFailure {
+                _state.value = _state.value.copy(isLoading = false)
+                eventChannel.send(ConvertEvent.Fail("Ocurrio un error al guardar la transacción"))
+            }
 
         }
     }

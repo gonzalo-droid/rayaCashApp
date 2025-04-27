@@ -1,7 +1,5 @@
 package com.gondroid.rayacashapp.data
 
-import com.gondroid.rayacashapp.shared.KMMDecimal
-import com.gondroid.rayacashapp.shared.createDecimal
 import com.gondroid.rayacashapp.data.database.RayaCashDatabase
 import com.gondroid.rayacashapp.data.database.fakeBalanceEntities
 import com.gondroid.rayacashapp.data.database.fakeTransactionEntities
@@ -11,6 +9,8 @@ import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.domain.model.convertRate.getCurrencyTypeFromString
+import com.gondroid.rayacashapp.shared.KMMDecimal
+import com.gondroid.rayacashapp.shared.createDecimal
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -57,9 +57,13 @@ class RepositoryImpl(
 
     }
 
-
-    override suspend fun updateBalance(balance: Balance) {
-
+    override suspend fun updateBalances(balances: List<Balance>): Boolean {
+        return try {
+            database.getBalanceDao().upsertBalances(balances.map { it.toEntity() })
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     override suspend fun getBalanceByCurrency(currency: String): Balance {
@@ -70,7 +74,16 @@ class RepositoryImpl(
         return database.getTransactionDao().getAllTransactions().map { it.toDomain() }
     }
 
-    override suspend fun saveTransaction(transaction: Transaction) {
-        return database.getTransactionDao().insertTransaction(transaction.toEntity())
+    override suspend fun saveTransaction(transaction: Transaction): Boolean {
+        return try {
+            database.getTransactionDao().insertTransaction(transaction.toEntity())
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun getBalanceByCurrencies(currencies: List<String>): List<Balance> {
+        return database.getBalanceDao().getBalancesForCurrencies(currencies).map { it.toDomain() }
     }
 }

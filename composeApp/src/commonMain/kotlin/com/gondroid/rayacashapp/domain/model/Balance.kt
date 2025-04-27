@@ -1,5 +1,6 @@
 package com.gondroid.rayacashapp.domain.model
 
+import com.gondroid.rayacashapp.data.database.entity.BalanceEntity
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -14,5 +15,13 @@ data class Balance(
     val amount: String = "0.0",
     var amountToARS: String = "",
     val updatedAt: String = getCurrentLocalTime()
-)
+) {
+    fun toEntity(): BalanceEntity {
+        return BalanceEntity(
+            currency = currency.name,
+            amount = amount,
+            updatedAt = updatedAt
+        )
+    }
+}
 
