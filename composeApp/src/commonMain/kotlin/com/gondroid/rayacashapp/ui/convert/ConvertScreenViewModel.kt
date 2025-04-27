@@ -114,7 +114,7 @@ class ConvertScreenViewModel(
                         val rateProvider =
                             InMemoryConversionRateProvider(_state.value.conversionRates)
 
-                        getCurrentRate(from, to, rateProvider)
+                        getCurrentRate(from = from, to = to, rateProvider = rateProvider)
                     } catch (e: Exception) {
                         Result.failure(e)
                     }

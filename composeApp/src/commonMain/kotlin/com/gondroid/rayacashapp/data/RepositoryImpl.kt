@@ -19,6 +19,7 @@ class RepositoryImpl(
     private val apiService: ApiService,
     private val database: RayaCashDatabase
 ) : Repository {
+
     override suspend fun getBalances(): List<Balance> {
         return database.getBalanceDao().getAllBalances().map { it.toDomain() }
     }
@@ -49,12 +50,10 @@ class RepositoryImpl(
                     resultMap[currencyType] = price
                 }
             }
-
             Result.success(resultMap)
         } catch (e: Exception) {
             Result.failure(e)
         }
-
     }
 
     override suspend fun updateBalances(balances: List<Balance>): Boolean {

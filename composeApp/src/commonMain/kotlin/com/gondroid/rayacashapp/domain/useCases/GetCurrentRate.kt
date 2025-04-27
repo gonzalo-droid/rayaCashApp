@@ -5,7 +5,6 @@ import com.gondroid.rayacashapp.domain.model.convertRate.Convertible
 import com.gondroid.rayacashapp.shared.toPlainString
 
 class GetCurrentRate() {
-
     suspend operator fun invoke(
         from: Convertible,
         to: Convertible,

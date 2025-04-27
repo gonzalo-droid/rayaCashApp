@@ -31,10 +31,10 @@ class UpdateBalance(private val repository: Repository) {
                 val balanceTo = balances.first { it.currency == currencyTo }
 
                 val newBalanceFrom = balanceFrom.copy(
-                    amount = (createDecimal(balanceFrom.amount).subtract(amountFrom)).toString()
+                    amount = (createDecimal(balanceFrom.amount).subtract(amountFrom)).toPlainString()
                 )
                 val newBalanceTo = balanceTo.copy(
-                    amount = (createDecimal(balanceTo.amount).plus(amountTo)).toString()
+                    amount = (createDecimal(balanceTo.amount).plus(amountTo)).toPlainString()
                 )
 
                 val newBalances = repository.updateBalances(listOf(newBalanceFrom, newBalanceTo))

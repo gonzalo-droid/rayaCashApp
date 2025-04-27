@@ -84,7 +84,7 @@ fun ConvertScreenRoot(
                 is ConvertEvent.Fail -> showToastMsg(event.message)
                 is ConvertEvent.Success -> {
                     showToastMsg("Transacción realizada con éxito")
-                    delay(2000)
+                    delay(1000)
                     navigateBack()
                 }
             }

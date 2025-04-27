@@ -61,6 +61,7 @@ data class Currency(
         return when {
             type == ARS && target.type != ARS -> value.div(toRate)
             type != ARS && target.type == ARS -> value.times(fromRate)
+            type == ARS && target.type == ARS -> value
             else -> value.times(fromRate).div(toRate)
         }
     }

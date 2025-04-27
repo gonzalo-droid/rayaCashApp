@@ -1,17 +1,21 @@
 package com.gondroid.rayacashapp.domain.useCases
 
-import com.gondroid.rayacashapp.shared.KMMDecimal
-import com.gondroid.rayacashapp.shared.createDecimal
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.BalanceAmountToARS
+import com.gondroid.rayacashapp.domain.model.convertRate.Convertible
+import com.gondroid.rayacashapp.domain.model.convertRate.Currency
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
+import com.gondroid.rayacashapp.domain.model.convertRate.InMemoryConversionRateProvider
+import com.gondroid.rayacashapp.shared.KMMDecimal
+import com.gondroid.rayacashapp.shared.createDecimal
 import com.gondroid.rayacashapp.shared.plus
 import com.gondroid.rayacashapp.shared.roundToDecimal
-import com.gondroid.rayacashapp.shared.times
 import com.gondroid.rayacashapp.shared.toPlainString
 
-class GetTotalBalance(private val repository: Repository) {
+class GetTotalBalance(
+    private val repository: Repository
+) {
 
     suspend operator fun invoke(): Result<BalanceAmountToARS> {
         return try {
@@ -21,25 +25,45 @@ class GetTotalBalance(private val repository: Repository) {
             if (result.isSuccess) {
                 val conversionRates = result.getOrNull().orEmpty()
 
-                var totalInARS: KMMDecimal = createDecimal("0")
-                balances.forEach { balance ->
-                    totalInARS =
-                        totalInARS.plus(getConversionRates(balance, conversionRates))
+                val currenciesFrom: List<Convertible> = balances.map { balance ->
+                    Currency(
+                        type = balance.currency,
+                        value = createDecimal(balance.amount)
+                    )
                 }
 
-                val balanceAmountToARS = BalanceAmountToARS(
-                    totalBalance = "ARS ${totalInARS.roundToDecimal().toPlainString()}",
-                    balances = balances.map { balance ->
-                        balance.amountToARS =
-                            "ARS " + getConversionRates(
-                                balance,
-                                conversionRates
-                            ).roundToDecimal().toPlainString()
-                        balance
-                    }
+                val argConvert = Currency(
+                    type = CurrencyType.ARS,
+                    value = createDecimal("0")
                 )
 
-                Result.success(balanceAmountToARS)
+                val rateProvider = InMemoryConversionRateProvider(conversionRates)
+
+                var totalInARS: KMMDecimal = createDecimal("0")
+
+                currenciesFrom.forEach { currency ->
+                    totalInARS = totalInARS.plus(currency.convertTo(argConvert, rateProvider))
+                }
+
+
+                val balances = balances.map { balance ->
+                    val currency = Currency(
+                        type = balance.currency,
+                        value = createDecimal(balance.amount)
+                    )
+                    balance.amountToARS =
+                        "ARS " + currency.convertTo(argConvert, rateProvider)
+                            .roundToDecimal()
+                            .toPlainString()
+                    balance
+                }
+
+                val data = BalanceAmountToARS(
+                    totalBalance = "ARS ${totalInARS.roundToDecimal().toPlainString()}",
+                    balances = balances
+                )
+
+                Result.success(data)
             } else {
                 val error = result.exceptionOrNull()
                 println("Error al obtener tasas de conversión: ${error?.message}")
@@ -50,26 +74,4 @@ class GetTotalBalance(private val repository: Repository) {
             Result.failure(e)
         }
     }
-
-    fun getConversionRates(
-        balance: Balance,
-        conversionRates: Map<CurrencyType, KMMDecimal>
-    ): KMMDecimal {
-        val amount = createDecimal(balance.amount)
-        return when (balance.currency) {
-            CurrencyType.ARS -> amount
-            CurrencyType.USD -> amount.times(
-                conversionRates[CurrencyType.USD] ?: createDecimal("0")
-            )
-
-            CurrencyType.BTC -> amount.times(
-                conversionRates[CurrencyType.BTC] ?: createDecimal("0")
-            )
-
-            CurrencyType.ETH -> amount.times(
-                conversionRates[CurrencyType.ETH] ?: createDecimal("0")
-            )
-        }
-    }
-
 }

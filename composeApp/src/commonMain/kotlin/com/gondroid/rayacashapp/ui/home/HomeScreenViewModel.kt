@@ -26,31 +26,39 @@ class HomeScreenViewModel(
         }
     }
 
-    private suspend fun initializeData() = withContext(Dispatchers.IO) {
+    private suspend fun initializeData() {
         try {
-            _state.update {
-                it.copy(
-                    isLoading = true
-                )
-            }
-            repository.insertInitialData()
-
-            val result = getTotalBalance()
-            withContext(Dispatchers.Main) {
-                result.onSuccess { data ->
-                    _state.update {
-                        it.copy(
-                            totalBalance = data.totalBalance,
-                            balances = data.balances,
-                            isLoading = false
-                        )
-                    }
-                }.onFailure { error ->
-                    // Log.e("HomeViewModel", "Failed to get total balance", error)
-                }
+            withContext(Dispatchers.IO) {
+                repository.insertInitialData()
             }
         } catch (e: Exception) {
-            println("Excepción durante la conversión: ${e.message}")
+            println("Error initializing data}")
+        }
+    }
+
+     fun loadBalances() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = withContext(Dispatchers.IO) { getTotalBalance() }
+                    result.onSuccess { data ->
+                        _state.update {
+                            it.copy(
+                                totalBalance = data.totalBalance,
+                                balances = data.balances,
+                                isLoading = false
+                            )
+                        }
+                    }.onFailure { error ->
+                        println("Excepción durante la conversión: ${error.message}")
+                        _state.update { it.copy(isLoading = true) }
+                    }
+                } catch (e: Exception) {
+                    println("Excepción durante la conversión: ${e.message}")
+                    _state.update { it.copy(isLoading = true) }
+                }
+            }
         }
     }
 }
