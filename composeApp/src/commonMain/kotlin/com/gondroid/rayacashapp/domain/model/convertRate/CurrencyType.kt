@@ -6,6 +6,7 @@ import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ETH
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.USD
 import com.gondroid.rayacashapp.shared.KMMDecimal
 import com.gondroid.rayacashapp.shared.div
+import com.gondroid.rayacashapp.shared.roundToDecimal
 import com.gondroid.rayacashapp.shared.times
 import org.jetbrains.compose.resources.DrawableResource
 import rayacashapp.composeapp.generated.resources.Res
@@ -58,11 +59,15 @@ data class Currency(
         val fromRate = rates.getRate(type)
         val toRate = rates.getRate(target.type)
 
-        return when {
+        val amount = when {
             type == ARS && target.type != ARS -> value.div(toRate)
             type != ARS && target.type == ARS -> value.times(fromRate)
             type == ARS && target.type == ARS -> value
             else -> value.times(fromRate).div(toRate)
+        }
+        return when {
+            target.type == ARS || target.type == USD -> amount.roundToDecimal(2)
+            else -> amount.roundToDecimal(10)
         }
     }
 }

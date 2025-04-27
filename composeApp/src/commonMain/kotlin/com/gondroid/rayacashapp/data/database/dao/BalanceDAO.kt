@@ -9,7 +9,7 @@ import com.gondroid.rayacashapp.data.database.entity.BalanceEntity
 @Dao
 interface BalanceDAO {
 
-    @Query("SELECT * FROM balances")
+    @Query("SELECT * FROM balances ORDER BY currency ASC")
     suspend fun getAllBalances(): List<BalanceEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
