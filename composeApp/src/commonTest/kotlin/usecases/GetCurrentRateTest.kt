@@ -1,12 +1,12 @@
-package com.gondroid.rayacashapp.usecases
+package usecases
 
 import com.gondroid.rayacashapp.domain.model.convertRate.Currency
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.domain.useCases.GetCurrentRate
-import com.gondroid.rayacashapp.fakers.FakeConversionRateProvider
-import com.gondroid.rayacashapp.fakers.FakeConversionRatesProvider
-import com.gondroid.rayacashapp.fakers.FakeConvertibleFailure
-import com.gondroid.rayacashapp.fakers.FakeConvertibleSuccess
+import FakeConversionRateProvider
+import FakeConversionRatesProvider
+import FakeConvertibleFailure
+import FakeConvertibleSuccess
 import com.gondroid.rayacashapp.shared.createDecimal
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test

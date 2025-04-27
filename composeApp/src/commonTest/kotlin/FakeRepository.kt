@@ -1,5 +1,3 @@
-package com.gondroid.rayacashapp.fakers
-
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.domain.model.Transaction

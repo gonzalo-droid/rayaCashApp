@@ -43,9 +43,10 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.core.splashscreen)
         }
+
         commonTest.dependencies {
             implementation(libs.junit)
-            implementation(libs.kotlin.test.junit)
+            // implementation(libs.kotlin.test.junit)
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.kotlinx.coroutines.core)

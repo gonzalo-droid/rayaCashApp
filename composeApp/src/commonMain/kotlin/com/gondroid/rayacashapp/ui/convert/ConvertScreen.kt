@@ -269,10 +269,13 @@ fun CoinItem(modifier: Modifier, item: CurrencyType, onCoinSelect: (CurrencyType
             Text(
                 text = item.label,
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
+                fontSize = 14.sp, color = DefaultTextColor,
             )
             Text(
-                text = item.name, fontWeight = FontWeight.Normal, fontSize = 12.sp
+                text = item.name,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+                color = DefaultTextColor,
             )
         }
 
@@ -327,7 +330,8 @@ fun CardConvertTo(
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Start,
             fontSize = 10.sp,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            color = DefaultTextColor,
         )
         Row {
 
@@ -343,6 +347,7 @@ fun CardConvertTo(
                 fontSize = 16.sp,
                 textAlign = TextAlign.End,
                 fontWeight = FontWeight.Normal,
+                color = DefaultTextColor,
             )
 
         }
@@ -403,6 +408,7 @@ fun FieldCoinFrom(
         textStyle = TextStyle(
             fontSize = 16.sp,
             textAlign = TextAlign.End,
+            color = DefaultTextColor,
         ),
         decorator = { innerTextField ->
             Column(
@@ -415,7 +421,7 @@ fun FieldCoinFrom(
                         text = "0",
                         fontSize = 16.sp,
                         textAlign = TextAlign.End,
-                        color = secondaryBlack,
+                        color = DefaultTextColor,
                     )
                 } else {
                     innerTextField()
@@ -451,7 +457,7 @@ fun ButtonSection(
         )
     ) {
         Text(
-            text = "Preview",
+            text = "Preview", color = DefaultTextColor,
         )
     }
 }

@@ -25,6 +25,7 @@ RayaCash es una aplicación de conversión de criptomonedas y divisas. Desarroll
 - Soporte multiplataforma (Android e iOS).
 - Visualización de transacciones de converción recientes
 - Cálculo del balance total en ARS
+- Theme Oscuro y Claro
 - Manejo de estados con `StateFlow`
 - UI moderna con `Jetpack Compose` y `Material3`
 - Arquitectura limpia con `MVVM`

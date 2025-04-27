@@ -33,6 +33,7 @@ import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.ui.convert.CoinItem
 import com.gondroid.rayacashapp.ui.convert.ConvertState
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
+import com.gondroid.rayacashapp.ui.core.BackgroundSecondaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
 import com.gondroid.rayacashapp.ui.core.RayaColor
 import com.gondroid.rayacashapp.ui.core.primaryWhite
@@ -48,7 +49,7 @@ fun CoinBottomSheet(
 ) {
     ModalBottomSheet(
         modifier = Modifier.fillMaxSize(),
-        containerColor = BackgroundPrimaryColor,
+        containerColor = BackgroundSecondaryColor,
         sheetState = sheetState,
         onDismissRequest = { onDismiss() }) {
         Column(
@@ -61,7 +62,7 @@ fun CoinBottomSheet(
                 Text(
                     text = "Coins",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
+                    fontSize = 16.sp, color = DefaultTextColor,
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -99,7 +100,7 @@ fun ConfirmOrderBottomSheet(
 ) {
     ModalBottomSheet(
         modifier = Modifier.fillMaxWidth(),
-        containerColor = BackgroundPrimaryColor,
+        containerColor = BackgroundSecondaryColor,
         sheetState = sheetState,
         onDismissRequest = { onDismiss() }) {
         Box(
@@ -119,6 +120,7 @@ fun ConfirmOrderBottomSheet(
                         text = "Confirm Order",
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
+                        color = DefaultTextColor
                     )
 
                     Spacer(modifier = Modifier.weight(1f))
@@ -150,7 +152,9 @@ fun ConfirmOrderBottomSheet(
                         )
 
                         TextSmall(text = "From")
-                        TextMedium(text = "${state.fromCoinField.text} ${state.fromCoinSelected.name}")
+                        TextMedium(
+                            text = "${state.fromCoinField.text} ${state.fromCoinSelected.name}"
+                        )
                     }
 
                     Icon(
@@ -186,7 +190,10 @@ fun ConfirmOrderBottomSheet(
                     TextSmall("Type")
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = "Instant", fontWeight = FontWeight.Normal, fontSize = 14.sp
+                        text = "Instant",
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = DefaultTextColor,
                     )
                 }
                 Row(
@@ -197,7 +204,7 @@ fun ConfirmOrderBottomSheet(
                     Text(
                         text = "0 ${state.toCoinSelected.name}",
                         fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp
+                        fontSize = 14.sp, color = DefaultTextColor,
                     )
                 }
             }
@@ -214,7 +221,7 @@ fun ConfirmOrderBottomSheet(
                 )
             ) {
                 Text(
-                    text = "Confirm order",
+                    text = "Confirm order", color = DefaultTextColor,
                 )
             }
         }

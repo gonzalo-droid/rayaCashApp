@@ -30,6 +30,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.gondroid.rayacashapp.domain.model.Balance
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
+import com.gondroid.rayacashapp.ui.core.DefaultTextColor
 import com.gondroid.rayacashapp.ui.core.RayaColor
 import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
 import org.jetbrains.compose.resources.painterResource
@@ -129,12 +130,18 @@ fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
 @Composable
 fun TotalBalance(modifier: Modifier, state: HomeState) {
     Column(modifier = modifier) {
-        Text(text = "Total Balance", modifier = Modifier.fillMaxWidth(), fontSize = 14.sp)
+        Text(
+            text = "Total Balance",
+            modifier = Modifier.fillMaxWidth(),
+            fontSize = 14.sp,
+            color = DefaultTextColor,
+        )
         Text(
             text = state.totalBalance,
             modifier = Modifier.fillMaxWidth(),
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = DefaultTextColor,
         )
     }
 }
@@ -157,12 +164,14 @@ fun CardItem(modifier: Modifier, item: Balance) {
             Text(
                 text = item.currency.label,
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = DefaultTextColor,
             )
             Text(
                 text = item.currency.name,
                 fontWeight = FontWeight.Normal,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                color = DefaultTextColor,
             )
         }
 
@@ -173,13 +182,15 @@ fun CardItem(modifier: Modifier, item: Balance) {
                 modifier = Modifier.align(Alignment.End),
                 text = item.amount.toString(),
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = DefaultTextColor,
             )
             Text(
                 modifier = Modifier.align(Alignment.End),
                 text = item.amountToARS,
                 fontWeight = FontWeight.Normal,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                color = DefaultTextColor,
             )
         }
     }

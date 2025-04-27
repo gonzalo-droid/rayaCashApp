@@ -29,6 +29,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
+import com.gondroid.rayacashapp.ui.core.DefaultTextColor
 import com.gondroid.rayacashapp.ui.core.RayaColor
 import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
 import org.jetbrains.compose.resources.painterResource
@@ -141,7 +142,8 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
                     text = "From",
                     fontWeight = FontWeight.Normal,
                     fontSize = 10.sp,
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier.padding(end = 8.dp),
+                    color = DefaultTextColor,
                 )
                 Image(
                     modifier = Modifier.width(15.dp),
@@ -153,12 +155,14 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
             Text(
                 text = "${item.fromAmount} ${item.fromCurrency}",
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = DefaultTextColor,
             )
             Text(
                 text = item.date,
                 fontWeight = FontWeight.Normal,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                color = DefaultTextColor,
             )
         }
 
@@ -175,6 +179,7 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
                     fontWeight = FontWeight.Normal,
                     fontSize = 10.sp,
                     modifier = Modifier.padding(end = 8.dp),
+                    color = DefaultTextColor,
                 )
                 Image(
                     modifier = Modifier.width(15.dp),
@@ -187,13 +192,15 @@ fun CardItemTransaction(modifier: Modifier, item: Transaction) {
                 modifier = Modifier.align(Alignment.End),
                 text = "${item.toAmount} ${item.toCurrency}",
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = DefaultTextColor,
             )
             Text(
                 modifier = Modifier.align(Alignment.End),
                 text = item.status.name,
                 fontWeight = FontWeight.Normal,
-                fontSize = 10.sp
+                fontSize = 10.sp,
+                color = DefaultTextColor,
             )
         }
     }
