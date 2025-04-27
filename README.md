@@ -72,6 +72,7 @@ RayaCash/
 │   ├── data/database          # Inicialización Room de Android
 │   └── di/                    # Inyección de dependencias para Android
 │   └── shared/                # Clases aplicadas solo para Android (Toast, BigDecimal, DateUtil)
+├── commonTest/                # Módulo testing (Casos de uso)
 ├── commonMain/                # Módulo multiplataforma (Kotlin común)
 │   ├── data/
 │   │   ├── database/          # Database, DAOS y Entities
@@ -87,12 +88,17 @@ RayaCash/
 │   │   ├── convert/           # Scree, ViewModel, State, Action y Event, conversión de monedas
 │   │   ├── home/              # Scree, ViewModel y State, mi portafolio
 │   │   ├── transacion/        # Scree, Viewmodel y State, para mostras las transacciones
-├── iosMain/                   # Código específico de iOS (SwiftUI/Combine si aplica)
+├── iosMain/                   # Código específico de iOS 
 │   ├── data/database          # Inicialización Room de iOS
 │   └── di/                    # Inyección de dependencias para iOS
 │   └── shared/                # Clases aplicadas solo para iOS (Toast, NSDecimalNumber, DateUtil)
 ├── build.gradle.kts           # Configuración de composeApp
 ```
+#### /shared representa las clases que se adaptaron segun la plataforma (andoird/ios)
+
+- KMMDateUtil : obtener la fecha actual, así actualizar la fecha en las transacciones
+- KMMDecimal: Al trabajar con monedas el control de los decimales es importante, considerando que son criptomonedas que limitado a un máximo de 10 decimales para esos caso. Además para garantizar exactitud he aplicado BigDecimal (Android) y NSDecimalNumber[iOS]
+- KMMToast: El Toast que estamos acostumbrados en Android, no es compatible con KMM así que adapte la funcionalidad según la plataforma
 
 
 ## Instalación y Configuración  
