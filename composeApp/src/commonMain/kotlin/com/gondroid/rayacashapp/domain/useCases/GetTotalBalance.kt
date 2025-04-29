@@ -1,8 +1,8 @@
 package com.gondroid.rayacashapp.domain.useCases
 
 import com.gondroid.rayacashapp.domain.Repository
-import com.gondroid.rayacashapp.domain.model.Balance
-import com.gondroid.rayacashapp.domain.model.BalanceAmountToARS
+import com.gondroid.rayacashapp.domain.model.balance.Balance
+import com.gondroid.rayacashapp.domain.model.balance.BalanceAmountToARS
 import com.gondroid.rayacashapp.domain.model.convertRate.Convertible
 import com.gondroid.rayacashapp.domain.model.convertRate.Currency
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
@@ -20,11 +20,11 @@ class GetTotalBalance(
     suspend operator fun invoke(): Result<BalanceAmountToARS> {
         return try {
 
-            val balances: List<Balance> = repository.getBalances()
-
             val result = repository.getConversionRatesToARS()
 
             if (result.isSuccess) {
+                val balances: List<Balance> = repository.getBalances()
+
                 val conversionRates = result.getOrNull().orEmpty()
 
                 val currenciesFrom: List<Convertible> = balances.map { balance ->

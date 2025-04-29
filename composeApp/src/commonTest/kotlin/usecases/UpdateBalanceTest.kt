@@ -1,4 +1,4 @@
-import com.gondroid.rayacashapp.domain.model.Balance
+import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.domain.model.Transaction
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ARS
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.USD
@@ -37,7 +37,7 @@ class UpdateBalanceTest {
 
         // When
         val result = runBlocking {
-            updateBalance(transaction)
+            updateBalance(transaction, DefaultBalanceUpdater())
         }
 
         // Then
@@ -64,7 +64,7 @@ class UpdateBalanceTest {
 
         // When
         val result = runBlocking {
-            updateBalance(transaction)
+            updateBalance(transaction, DefaultBalanceUpdater())
         }
 
         // Then

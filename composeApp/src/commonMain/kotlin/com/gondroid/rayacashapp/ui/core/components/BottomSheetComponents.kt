@@ -221,7 +221,7 @@ fun ConfirmOrderBottomSheet(
                 )
             ) {
                 Text(
-                    text = "Confirm order", color = DefaultTextColor,
+                    text = "Confirm order"
                 )
             }
         }

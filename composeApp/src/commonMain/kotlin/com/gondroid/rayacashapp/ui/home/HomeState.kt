@@ -1,6 +1,6 @@
 package com.gondroid.rayacashapp.ui.home
 
-import com.gondroid.rayacashapp.domain.model.Balance
+import com.gondroid.rayacashapp.domain.model.balance.Balance
 
 data class HomeState(
     val isLoading: Boolean = false,

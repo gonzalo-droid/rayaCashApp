@@ -457,7 +457,7 @@ fun ButtonSection(
         )
     ) {
         Text(
-            text = "Preview", color = DefaultTextColor,
+            text = "Preview",
         )
     }
 }

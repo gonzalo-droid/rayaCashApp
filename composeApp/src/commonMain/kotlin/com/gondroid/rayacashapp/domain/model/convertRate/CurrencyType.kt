@@ -50,7 +50,7 @@ fun getCurrency(currency: String): CurrencyType {
 
 data class Currency(
     val type: CurrencyType,
-    override val value: KMMDecimal
+    override val value: KMMDecimal,
 ) : Convertible {
 
     override suspend fun convertTo(target: Convertible, rates: ConversionRateProvider): KMMDecimal {

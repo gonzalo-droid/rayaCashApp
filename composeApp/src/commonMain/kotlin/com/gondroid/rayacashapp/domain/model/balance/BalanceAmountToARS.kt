@@ -1,4 +1,4 @@
-package com.gondroid.rayacashapp.domain.model
+package com.gondroid.rayacashapp.domain.model.balance
 
 data class BalanceAmountToARS(
     val totalBalance: String,

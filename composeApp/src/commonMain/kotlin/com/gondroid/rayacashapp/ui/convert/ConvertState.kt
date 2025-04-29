@@ -2,7 +2,7 @@ package com.gondroid.rayacashapp.ui.convert
 
 import androidx.compose.foundation.text.input.TextFieldState
 import com.gondroid.rayacashapp.shared.KMMDecimal
-import com.gondroid.rayacashapp.domain.model.Balance
+import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.domain.model.convertRate.currencyList
 

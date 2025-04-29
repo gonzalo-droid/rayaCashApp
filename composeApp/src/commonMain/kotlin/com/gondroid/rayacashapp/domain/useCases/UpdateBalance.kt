@@ -1,48 +1,32 @@
 package com.gondroid.rayacashapp.domain.useCases
 
-import com.gondroid.rayacashapp.shared.KMMDecimal
-import com.gondroid.rayacashapp.shared.createDecimal
 import com.gondroid.rayacashapp.domain.Repository
-import com.gondroid.rayacashapp.domain.model.Balance
-import com.gondroid.rayacashapp.domain.model.BalanceAmountToARS
 import com.gondroid.rayacashapp.domain.model.Transaction
-import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
-import com.gondroid.rayacashapp.shared.plus
-import com.gondroid.rayacashapp.shared.roundToDecimal
-import com.gondroid.rayacashapp.shared.subtract
-import com.gondroid.rayacashapp.shared.times
-import com.gondroid.rayacashapp.shared.toPlainString
+import com.gondroid.rayacashapp.domain.model.balance.BalanceUpdater
 
-class UpdateBalance(private val repository: Repository) {
-
-    suspend operator fun invoke(transaction: Transaction): Result<Boolean> {
+class UpdateBalance(
+    private val repository: Repository,
+) {
+    suspend operator fun invoke(
+        transaction: Transaction,
+        balanceUpdater: BalanceUpdater
+    ): Result<Boolean> {
         return try {
             val result = repository.saveTransaction(transaction)
             if (result) {
-                val currencyFrom = transaction.fromCurrency
-                val amountFrom = createDecimal(transaction.fromAmount)
 
-                val currencyTo = transaction.toCurrency
-                val amountTo = createDecimal(transaction.toAmount)
+                val currencies = listOf(
+                    transaction.fromCurrency.name,
+                    transaction.toCurrency.name
+                )
 
-                val currencies = listOf(currencyFrom.name, currencyTo.name)
                 val balances = repository.getBalanceByCurrencies(currencies)
+                val updatedBalances = balanceUpdater.update(transaction, balances)
+                val newBalancesSaved = repository.updateBalances(updatedBalances)
 
-                val balanceFrom = balances.first { it.currency == currencyFrom }
-                val balanceTo = balances.first { it.currency == currencyTo }
-
-                val newBalanceFrom = balanceFrom.copy(
-                    amount = (createDecimal(balanceFrom.amount).subtract(amountFrom)).toPlainString()
-                )
-                val newBalanceTo = balanceTo.copy(
-                    amount = (createDecimal(balanceTo.amount).plus(amountTo)).toPlainString()
-                )
-
-                val newBalances = repository.updateBalances(listOf(newBalanceFrom, newBalanceTo))
-
-                Result.success(newBalances)
+                Result.success(newBalancesSaved)
             } else {
-                Result.failure( Exception("Error al guardar la transacción"))
+                Result.failure(Exception("Error al guardar la transacción"))
             }
         } catch (e: Exception) {
             println("Excepción durante la conversión: ${e.message}")

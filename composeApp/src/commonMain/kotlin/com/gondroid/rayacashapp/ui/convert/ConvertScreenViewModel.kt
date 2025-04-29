@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.Transaction
+import com.gondroid.rayacashapp.domain.model.balance.DefaultBalanceUpdater
 import com.gondroid.rayacashapp.domain.model.convertRate.Currency
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.domain.model.convertRate.InMemoryConversionRateProvider
@@ -139,7 +140,7 @@ class ConvertScreenViewModel(
                 toAmount = _state.value.amountConverted,
             )
             val result = withContext(Dispatchers.IO) {
-                updateBalance(transaction)
+                updateBalance(transaction, DefaultBalanceUpdater())
             }
 
             result.onSuccess {

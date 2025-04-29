@@ -1,6 +1,6 @@
 package usecases
 
-import com.gondroid.rayacashapp.domain.model.Balance
+import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.domain.useCases.GetTotalBalance
 import FakeRepository

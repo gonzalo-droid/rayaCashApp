@@ -1,12 +1,8 @@
-package com.gondroid.rayacashapp.domain.model
+package com.gondroid.rayacashapp.domain.model.balance
 
 import com.gondroid.rayacashapp.data.database.entity.BalanceEntity
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.gondroid.rayacashapp.domain.model.getCurrentLocalTime
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -24,4 +20,3 @@ data class Balance(
         )
     }
 }
-
