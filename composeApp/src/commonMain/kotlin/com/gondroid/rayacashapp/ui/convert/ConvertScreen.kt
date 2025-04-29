@@ -58,7 +58,6 @@ import com.gondroid.rayacashapp.ui.core.components.TextMedium
 import com.gondroid.rayacashapp.ui.core.components.TextSmall
 import com.gondroid.rayacashapp.ui.core.primaryBlack
 import com.gondroid.rayacashapp.ui.core.primaryWhite
-import com.gondroid.rayacashapp.ui.core.secondaryBlack
 import com.gondroid.rayacashapp.ui.core.tertiaryWhite
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
@@ -104,11 +103,11 @@ fun ConvertScreenRoot(
             when (action) {
                 is ConvertScreenAction.Back -> navigateBack()
                 is ConvertScreenAction.CurrencyFrom -> {
-                    viewModel.saveCurrencyFrom(action.currency)
+                    viewModel.saveCurrencyFrom(action.currency,fromTextField.text.toString())
                 }
 
                 is ConvertScreenAction.CurrencyTo -> {
-                    viewModel.saveCurrencyTo(action.currency)
+                    viewModel.saveCurrencyTo(action.currency, fromTextField.text.toString())
                 }
 
                 is ConvertScreenAction.FilterCurrency -> {

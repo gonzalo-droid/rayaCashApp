@@ -53,49 +53,33 @@ class ConvertScreenViewModel(
         getBalanceByCurrency()
     }
 
-    fun saveCurrencyFrom(currency: CurrencyType) {
+    fun saveCurrencyFrom(currency: CurrencyType, amount: String) {
         _state.value = _state.value.copy(fromCoinSelected = currency)
+        if (currency == _state.value.toCoinSelected) {
+            val toCurrency = currencyList.first { it != currency }
+            saveCurrencyTo(toCurrency, _state.value.fromCoinField.text.toString())
+        } else {
+            convertAmount(amount)
+        }
         getBalanceByCurrency()
     }
 
-    fun saveCurrencyTo(currency: CurrencyType) {
+    fun saveCurrencyTo(currency: CurrencyType, amount: String) {
         _state.value = _state.value.copy(toCoinSelected = currency)
+        convertAmount(amount)
     }
 
     fun filterCurrencies(isCoinFrom: Boolean) {
+        val filteredCoins = if (isCoinFrom) {
+            currencyList
+        } else {
+            currencyList.filter { it != _state.value.fromCoinSelected }
+        }
+
         _state.value = _state.value.copy(
-            coins = currencyList.filter {
-                it != if (isCoinFrom) {
-                    _state.value.toCoinSelected
-                } else {
-                    _state.value.fromCoinSelected
-                }
-            }
+            coins = filteredCoins
         )
     }
-
-    fun getBalanceByCurrency() {
-        viewModelScope.launch {
-            val balance = withContext(Dispatchers.IO) {
-                repository.getBalanceByCurrency(state.value.fromCoinSelected.name)
-            }
-            _state.value = _state.value.copy(balance = balance)
-        }
-    }
-
-    fun getRates() {
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                repository.getConversionRatesToARS()
-            }
-            result.onSuccess {
-                _state.value = _state.value.copy(conversionRates = it, isLoading = false)
-            }.onFailure {
-                _state.value = _state.value.copy(conversionRates = emptyMap(), isLoading = false)
-            }
-        }
-    }
-
     fun convertAmount(amount: String) {
         if (
             _state.value.conversionRates.isNotEmpty() && amount.isNotBlank()
@@ -127,7 +111,29 @@ class ConvertScreenViewModel(
                 }
             }
         }
+    }
 
+
+    fun getBalanceByCurrency() {
+        viewModelScope.launch {
+            val balance = withContext(Dispatchers.IO) {
+                repository.getBalanceByCurrency(state.value.fromCoinSelected.name)
+            }
+            _state.value = _state.value.copy(balance = balance)
+        }
+    }
+
+    fun getRates() {
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                repository.getConversionRatesToARS()
+            }
+            result.onSuccess {
+                _state.value = _state.value.copy(conversionRates = it, isLoading = false)
+            }.onFailure {
+                _state.value = _state.value.copy(conversionRates = emptyMap(), isLoading = false)
+            }
+        }
     }
 
     fun saveTransaction() {
