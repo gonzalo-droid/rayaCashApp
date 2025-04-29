@@ -1,8 +1,10 @@
 import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.domain.model.Transaction
+import com.gondroid.rayacashapp.domain.model.balance.DefaultBalanceUpdater
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.ARS
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType.USD
 import com.gondroid.rayacashapp.domain.useCases.UpdateBalance
+import com.gondroid.rayacashapp.util.FakeRepository
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals

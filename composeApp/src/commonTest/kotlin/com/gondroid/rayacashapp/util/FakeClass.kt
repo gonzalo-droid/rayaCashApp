@@ -1,3 +1,5 @@
+package com.gondroid.rayacashapp.util
+
 import com.gondroid.rayacashapp.domain.model.convertRate.ConversionRateProvider
 import com.gondroid.rayacashapp.domain.model.convertRate.Convertible
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType

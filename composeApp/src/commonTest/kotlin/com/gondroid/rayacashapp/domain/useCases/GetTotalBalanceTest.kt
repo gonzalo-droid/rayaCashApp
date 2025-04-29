@@ -1,9 +1,8 @@
-package usecases
+package com.gondroid.rayacashapp.domain.useCases
 
 import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
-import com.gondroid.rayacashapp.domain.useCases.GetTotalBalance
-import FakeRepository
+import com.gondroid.rayacashapp.util.FakeRepository
 import com.gondroid.rayacashapp.shared.createDecimal
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test

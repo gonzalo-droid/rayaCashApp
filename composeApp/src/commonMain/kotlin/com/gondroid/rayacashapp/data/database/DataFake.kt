@@ -31,7 +31,7 @@ val fakeTransactionEntities = listOf(
 
 val fakeBalanceEntities = listOf(
     BalanceEntity(currency = ARS.toString(), amount = "80000.00", updatedAt = ""),
-    BalanceEntity(currency = USD.toString(), amount = "500.00", updatedAt = ""),
-    BalanceEntity(currency = BTC.toString(), amount = "0.00525654", updatedAt = ""),
-    BalanceEntity(currency = ETH.toString(), amount = "0.00100123", updatedAt = "")
+    BalanceEntity(currency = USD.toString(), amount = "50000.00", updatedAt = ""),
+    BalanceEntity(currency = BTC.toString(), amount = "0.0052565444", updatedAt = ""),
+    BalanceEntity(currency = ETH.toString(), amount = "0.0010100203", updatedAt = "")
 )

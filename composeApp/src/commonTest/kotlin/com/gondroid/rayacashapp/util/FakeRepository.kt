@@ -1,3 +1,5 @@
+package com.gondroid.rayacashapp.util
+
 import com.gondroid.rayacashapp.domain.Repository
 import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.domain.model.Transaction
