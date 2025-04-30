@@ -6,5 +6,4 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_cash</item>
         <item name="postSplashScreenTheme">@android:style/Theme.Material.Light.NoActionBar</item>
     </style>
-
 </resources>

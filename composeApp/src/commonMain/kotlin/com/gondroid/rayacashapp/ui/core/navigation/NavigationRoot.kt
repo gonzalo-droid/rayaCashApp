@@ -21,6 +21,9 @@ fun NavigationRoot() {
             HomeScreenRoot(
                 navigateToTransactions = {
                     mainNavController.navigate(TransactionsScreenRoute)
+                },
+                navigateToConvert = {
+                    mainNavController.navigate(ConvertScreenRoute)
                 }
             )
         }

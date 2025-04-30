@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
@@ -31,8 +33,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
-import com.gondroid.rayacashapp.ui.core.primaryColor
 import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
+import com.gondroid.rayacashapp.ui.core.primaryColor
+import com.gondroid.rayacashapp.ui.core.primaryWhite
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -43,7 +46,8 @@ import rayacashapp.composeapp.generated.resources.ic_transactions
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun HomeScreenRoot(
-    navigateToTransactions: () -> Unit
+    navigateToTransactions: () -> Unit,
+    navigateToConvert: () -> Unit
 ) {
     val viewModel = koinViewModel<HomeScreenViewModel>()
     val state by viewModel.state.collectAsState()
@@ -65,12 +69,17 @@ fun HomeScreenRoot(
 
     HomeScreen(
         state = state,
-        navigateToTransactions = navigateToTransactions
+        navigateToTransactions = navigateToTransactions,
+        navigateToConvert = navigateToConvert
     )
 }
 
 @Composable
-fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
+fun HomeScreen(
+    state: HomeState,
+    navigateToTransactions: () -> Unit,
+    navigateToConvert: () -> Unit
+) {
     Scaffold(
         containerColor = BackgroundPrimaryColor,
         modifier = Modifier.fillMaxSize(),
@@ -85,13 +94,12 @@ fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
     ) { paddingValues ->
         Box(
             modifier =
-                Modifier
+                Modifier.fillMaxSize()
                     .padding(paddingValues)
                     .padding(16.dp)
         ) {
             LazyColumn(
-                modifier =
-                    Modifier
+                modifier = Modifier
             ) {
                 item {
                     TotalBalance(
@@ -111,9 +119,23 @@ fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
                         item = balance
                     )
                 }
-
-
             }
+
+            Button(
+                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
+                onClick = {
+                    navigateToConvert()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = primaryColor,
+                    contentColor = primaryWhite
+                )
+            ) {
+                Text(
+                    text = "Convert"
+                )
+            }
+
             if (state.isLoading) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(
