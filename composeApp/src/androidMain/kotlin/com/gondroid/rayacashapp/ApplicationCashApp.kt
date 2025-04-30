@@ -5,10 +5,10 @@ import com.gondroid.rayacashapp.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 
-class RayaCashApp : Application() {
+class ApplicationCashApp : Application() {
 
     companion object{
-        var instance: RayaCashApp? = null
+        var instance: ApplicationCashApp? = null
             private set
     }
 
@@ -17,7 +17,7 @@ class RayaCashApp : Application() {
         instance = this
         initKoin {
             androidLogger() // logging in DI Koin
-            androidContext(this@RayaCashApp) // inject context
+            androidContext(this@ApplicationCashApp) // inject context
         }
 
     }

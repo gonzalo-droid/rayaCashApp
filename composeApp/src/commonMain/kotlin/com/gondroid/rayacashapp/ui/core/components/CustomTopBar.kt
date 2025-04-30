@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
-import com.gondroid.rayacashapp.ui.core.RayaColor
+import com.gondroid.rayacashapp.ui.core.primaryColor
 import org.jetbrains.compose.resources.painterResource
 import rayacashapp.composeapp.generated.resources.Res
 import rayacashapp.composeapp.generated.resources.ic_back

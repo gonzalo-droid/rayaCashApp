@@ -50,7 +50,7 @@ import com.gondroid.rayacashapp.shared.showToastMsg
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.BackgroundTertiaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
-import com.gondroid.rayacashapp.ui.core.RayaColor
+import com.gondroid.rayacashapp.ui.core.primaryColor
 import com.gondroid.rayacashapp.ui.core.components.CoinBottomSheet
 import com.gondroid.rayacashapp.ui.core.components.ConfirmOrderBottomSheet
 import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
@@ -214,7 +214,7 @@ fun ConvertScreen(
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
-                        color = RayaColor
+                        color = primaryColor
                     )
                 }
             }
@@ -444,7 +444,7 @@ fun ButtonSection(
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(
             containerColor = if (state.canConvert) {
-                RayaColor
+                primaryColor
             } else {
                 primaryBlack
             },

@@ -31,7 +31,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
-import com.gondroid.rayacashapp.ui.core.RayaColor
+import com.gondroid.rayacashapp.ui.core.primaryColor
 import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -118,7 +118,7 @@ fun HomeScreen(state: HomeState, navigateToTransactions: () -> Unit) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
-                        color = RayaColor
+                        color = primaryColor
                     )
                 }
 

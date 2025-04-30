@@ -35,7 +35,7 @@ import com.gondroid.rayacashapp.ui.convert.ConvertState
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.BackgroundSecondaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
-import com.gondroid.rayacashapp.ui.core.RayaColor
+import com.gondroid.rayacashapp.ui.core.primaryColor
 import com.gondroid.rayacashapp.ui.core.primaryWhite
 import org.jetbrains.compose.resources.painterResource
 
@@ -216,7 +216,7 @@ fun ConfirmOrderBottomSheet(
                     onConfirmOrder()
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = RayaColor,
+                    containerColor = primaryColor,
                     contentColor = primaryWhite
                 )
             ) {

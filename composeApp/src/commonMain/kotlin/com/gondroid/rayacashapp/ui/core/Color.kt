@@ -24,8 +24,7 @@ val PlaceholderColor
     @Composable
     get() = if (isSystemInDarkTheme()) tertiaryBlack else secondaryWhite
 
-val Pink = Color(0xFFFF577D)
-val RayaColor = Color(0xFF635BFF)
+val primaryColor = Color(0xFF16a085)
 
 val primaryWhite = Color(0xFFFFFFFF)
 val secondaryWhite = Color(0xFFEAE8EF)

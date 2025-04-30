@@ -1,4 +1,4 @@
-<h1 align="center">RayaCash App</h1>
+<h1 align="center">CixCash App</h1>
 
 <p align="center">
   <a href="https://spdx.org/licenses/MIT.html"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">  
-RayaCash es una aplicación móvil de conversión de criptomonedas y gestión de transacciones, desarrollada con Kotlin Multiplatform (Android/iOS).  
+CixCash es una aplicación móvil de conversión de criptomonedas y gestión de transacciones, desarrollada con Kotlin Multiplatform (Android/iOS).  
 Permite consultar precios actualizados, convertir entre monedas y registrar transacciones fácilmente.
 </p>
 
@@ -15,8 +15,8 @@ Permite consultar precios actualizados, convertir entre monedas y registrar tran
 <img src="previews/features.png"/>
 </p>
 
-## RayaCash App
-RayaCash es una aplicación de conversión de criptomonedas y divisas. Desarrollada en [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html) para Android/iOS. Permite registrar transacciones, visualizar balances convertidos a pesos argentinos (ARS), y realizar conversiones entre monedas como USD, BTC y ETH.
+## CixCash App
+CixCash es una aplicación de conversión de criptomonedas y divisas. Desarrollada en [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html) para Android/iOS. Permite registrar transacciones, visualizar balances convertidos a pesos argentinos (ARS), y realizar conversiones entre monedas como USD, BTC y ETH.
 
 
 ## Features
@@ -50,7 +50,7 @@ RayaCash es una aplicación de conversión de criptomonedas y divisas. Desarroll
 
 
 ## Architecture
-**RayaCash App**  sigue el patrón de arquitectura MVVM (Model-View-ViewModel) y se estructura en capas bien definidas para garantizar el mantenimiento, escalabilidad y separación de responsabilidades:
+**CixCash App**  sigue el patrón de arquitectura MVVM (Model-View-ViewModel) y se estructura en capas bien definidas para garantizar el mantenimiento, escalabilidad y separación de responsabilidades:
 [Guía oficl de arquitectura de Google](https://developer.android.com/topic/architecture).
 
 Model View ViewModel (MVVM)
@@ -68,7 +68,7 @@ Esta organización sigue las buenas prácticas de arquitectura limpia (Clean Arc
 ## Project Structure
 
 ```plaintext
-RayaCash/
+CixCash/
 ├── androidMain/               # Código específico de Android
 │   ├── data/database          # Inicialización Room de Android
 │   └── di/                    # Inyección de dependencias para Android
@@ -105,7 +105,7 @@ RayaCash/
 
 ##### 1️⃣ Clone Repository
 ```bash
-git clone https://github.com/gonzalo-droid/rayaCashApp
+git clone https://github.com/gonzalo-droid/CixCashApp
 ```
 ##### 2️⃣ Generar tu Clave de API_KEYen Coingecko
 - Visita https://docs.coingecko.com/v3.0.1/reference/introduction
