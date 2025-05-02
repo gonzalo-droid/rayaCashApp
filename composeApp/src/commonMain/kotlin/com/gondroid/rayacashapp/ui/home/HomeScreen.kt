@@ -34,8 +34,11 @@ import com.gondroid.rayacashapp.domain.model.balance.Balance
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
 import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
+import com.gondroid.rayacashapp.ui.core.primaryBlack
 import com.gondroid.rayacashapp.ui.core.primaryColor
 import com.gondroid.rayacashapp.ui.core.primaryWhite
+import com.gondroid.rayacashapp.ui.core.secondaryBlack
+import com.gondroid.rayacashapp.ui.core.tertiaryBlack
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI

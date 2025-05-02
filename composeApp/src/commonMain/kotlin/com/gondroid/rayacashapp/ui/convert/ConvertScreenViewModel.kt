@@ -36,15 +36,17 @@ class ConvertScreenViewModel(
     private var eventChannel = Channel<ConvertEvent>()
     val event = eventChannel.receiveAsFlow()
 
-    private val canConvert = snapshotFlow { state.value.fromCoinField.text.toString() }
+    private val canConvert = snapshotFlow { _state.value.fromCoinField.text }
 
     init {
         _state.value = _state.value.copy(isLoading = true)
         getRates()
+
         canConvert
             .onEach {
-                _state.value = _state.value.copy(canConvert = it.isNotEmpty())
-            }.launchIn(viewModelScope)
+                _state.value = _state.value.copy(canConvert = it.isNotBlank())
+            }
+            .launchIn(viewModelScope)
 
         _state.value = _state.value.copy(
             fromCoinSelected = currencyList[0],
@@ -80,6 +82,7 @@ class ConvertScreenViewModel(
             coins = filteredCoins
         )
     }
+
     fun convertAmount(amount: String) {
         if (
             _state.value.conversionRates.isNotEmpty() && amount.isNotBlank()
@@ -157,6 +160,12 @@ class ConvertScreenViewModel(
                 eventChannel.send(ConvertEvent.Fail("Ocurrio un error al guardar la transacción"))
             }
 
+        }
+    }
+
+    fun setMaxValue() {
+        _state.value.fromCoinField.edit {
+            replace(0, _state.value.fromCoinField.text.length, _state.value.balance.amount)
         }
     }
 }

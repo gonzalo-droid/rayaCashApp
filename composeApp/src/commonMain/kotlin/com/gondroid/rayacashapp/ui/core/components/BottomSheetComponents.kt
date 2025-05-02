@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import com.gondroid.rayacashapp.domain.model.convertRate.CurrencyType
 import com.gondroid.rayacashapp.ui.convert.CoinItem
 import com.gondroid.rayacashapp.ui.convert.ConvertState
-import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.BackgroundSecondaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
 import com.gondroid.rayacashapp.ui.core.primaryColor
@@ -211,7 +210,6 @@ fun ConfirmOrderBottomSheet(
 
             Button(
                 modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
-                enabled = state.canConvert,
                 onClick = {
                     onConfirmOrder()
                 },

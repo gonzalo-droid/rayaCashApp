@@ -9,4 +9,5 @@ sealed interface ConvertScreenAction {
     data class CurrencyFrom(val currency: CurrencyType) : ConvertScreenAction
     data class CurrencyTo(val currency: CurrencyType) : ConvertScreenAction
     data class FilterCurrency(val isCoinFrom: Boolean) : ConvertScreenAction
+    data object MaxValue : ConvertScreenAction
 }

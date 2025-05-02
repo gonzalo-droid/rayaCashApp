@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,16 +52,18 @@ import com.gondroid.rayacashapp.shared.showToastMsg
 import com.gondroid.rayacashapp.ui.core.BackgroundPrimaryColor
 import com.gondroid.rayacashapp.ui.core.BackgroundTertiaryColor
 import com.gondroid.rayacashapp.ui.core.DefaultTextColor
-import com.gondroid.rayacashapp.ui.core.primaryColor
 import com.gondroid.rayacashapp.ui.core.components.CoinBottomSheet
 import com.gondroid.rayacashapp.ui.core.components.ConfirmOrderBottomSheet
 import com.gondroid.rayacashapp.ui.core.components.CustomTopBar
 import com.gondroid.rayacashapp.ui.core.components.TextMedium
 import com.gondroid.rayacashapp.ui.core.components.TextSmall
 import com.gondroid.rayacashapp.ui.core.primaryBlack
+import com.gondroid.rayacashapp.ui.core.primaryColor
 import com.gondroid.rayacashapp.ui.core.primaryWhite
+import com.gondroid.rayacashapp.ui.core.tertiaryBlack
 import com.gondroid.rayacashapp.ui.core.tertiaryWhite
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -75,8 +79,6 @@ fun ConvertScreenRoot(
     val viewModel = koinViewModel<ConvertScreenViewModel>()
     val state by viewModel.state.collectAsState()
     val event = viewModel.event
-    val fromTextField = state.fromCoinField
-
     LaunchedEffect(true) {
         event.collect { event ->
             when (event) {
@@ -90,12 +92,20 @@ fun ConvertScreenRoot(
         }
     }
 
-    LaunchedEffect(fromTextField) {
-        snapshotFlow { fromTextField.text }
+    LaunchedEffect(Unit) {
+        snapshotFlow { state.fromCoinField.text }
+            .distinctUntilChanged()
+            .collect { text ->
+                viewModel.convertAmount(state.fromCoinField.text.toString())
+            }
+    }
+
+    /*LaunchedEffect(state.fromCoinField) {
+        snapshotFlow { state.fromCoinField.text }
             .collect { newValue ->
                 viewModel.convertAmount(newValue.toString())
             }
-    }
+    }*/
 
     ConvertScreen(
         state = state,
@@ -103,11 +113,17 @@ fun ConvertScreenRoot(
             when (action) {
                 is ConvertScreenAction.Back -> navigateBack()
                 is ConvertScreenAction.CurrencyFrom -> {
-                    viewModel.saveCurrencyFrom(action.currency,fromTextField.text.toString())
+                    viewModel.saveCurrencyFrom(
+                        action.currency,
+                        state.fromCoinField.text.trim().toString()
+                    )
                 }
 
                 is ConvertScreenAction.CurrencyTo -> {
-                    viewModel.saveCurrencyTo(action.currency, fromTextField.text.toString())
+                    viewModel.saveCurrencyTo(
+                        action.currency,
+                        state.fromCoinField.text.trim().toString()
+                    )
                 }
 
                 is ConvertScreenAction.FilterCurrency -> {
@@ -116,6 +132,10 @@ fun ConvertScreenRoot(
 
                 is ConvertScreenAction.SaveTransaction -> {
                     viewModel.saveTransaction()
+                }
+
+                is ConvertScreenAction.MaxValue -> {
+                    viewModel.setMaxValue()
                 }
             }
         }
@@ -161,7 +181,8 @@ fun ConvertScreen(
                             color = BackgroundTertiaryColor,
                             shape = RoundedCornerShape(8.dp)
                         )
-                        .height(120.dp).padding(vertical = 30.dp, horizontal = 10.dp),
+                        .wrapContentHeight()
+                        .padding(vertical = 30.dp, horizontal = 16.dp),
                     state = state,
                     onCoinSheet = {
                         isCoinFrom = true
@@ -188,7 +209,7 @@ fun ConvertScreen(
                             color = BackgroundTertiaryColor,
                             shape = RoundedCornerShape(8.dp)
                         )
-                        .height(120.dp).padding(vertical = 20.dp, horizontal = 10.dp),
+                        .height(150.dp).padding(vertical = 20.dp, horizontal = 16.dp),
                     state = state,
                     onCoinSheet = {
                         isCoinFrom = false
@@ -199,9 +220,13 @@ fun ConvertScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                ButtonSection(modifier = Modifier.fillMaxWidth(), state = state, onPreview = {
-                    showConfirmOrderBottomSheet = true
-                })
+                ButtonSection(
+                    modifier = Modifier.fillMaxWidth(),
+                    state = state,
+                    onPreview = {
+                        showConfirmOrderBottomSheet = true
+                    }
+                )
 
             }
 
@@ -308,6 +333,19 @@ fun CardConvertFrom(
             Spacer(modifier = Modifier.weight(1f))
 
             FieldCoinFrom(state = state, modifier = Modifier)
+        }
+        TextButton(
+            modifier = Modifier.padding(4.dp).align(Alignment.End),
+            onClick = {
+                onAction(ConvertScreenAction.MaxValue)
+            }
+        ) {
+            Text(
+                text = "Max",
+                textAlign = TextAlign.End,
+                color = primaryColor,
+                modifier = Modifier
+            )
         }
     }
 }
@@ -443,16 +481,10 @@ fun ButtonSection(
         },
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (state.canConvert) {
-                primaryColor
-            } else {
-                primaryBlack
-            },
-            contentColor = if (state.canConvert) {
-                primaryWhite
-            } else {
-                primaryBlack
-            }
+            containerColor = primaryColor,
+            contentColor = primaryWhite,
+            disabledContainerColor = tertiaryBlack,
+            disabledContentColor = primaryWhite
         )
     ) {
         Text(
